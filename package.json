@@ -1,0 +1,34 @@
+{
+  "name": "wechat-robot-ipad-master",
+  "version": "1.0.0",
+  "description": "基于Node.js和Wechaty的个人微信机器人",
+  "main": "app.js",
+  "dependencies": {
+    "axios": "^0.25.0",
+    "cheerio": "^1.0.0-rc.2",
+    "node-schedule": "^1.3.2",
+    "qrcode-terminal": "^0.12.0",
+    "request": "^2.88.0",
+    "superagent": "^4.1.0",
+    "wechaty": "^0.60.10",
+    "wechaty-puppet-hostie": "^0.12.257",
+    "wechaty-puppet-padlocal": "^0.4.1"
+  },
+  "scripts": {
+    "test": "node start.js",
+    "start": "node start.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitee.com/Quantum-yzh/wechat-bot-padlocal"
+  },
+  "keywords": [
+    "Wechaty",
+    "Node.js",
+    "微信机器人",
+    "毕业设计",
+    "JavaScript"
+  ],
+  "author": "Hilbert Yi",
+  "license": "ISC"
+}
