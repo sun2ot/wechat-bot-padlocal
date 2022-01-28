@@ -7,8 +7,9 @@
 ## 一、关于iPad协议token的问题
 
 1. 目前web协议的wechaty通常情况下已经无法使用（可自行百度网页版微信登陆尝试，能登上就可以用）
-1. 基于UOS操作系统修改请求头的方式登录网页微信[https://wx.qq.com/](https://wx.qq.com/)的手段已经失效（腾讯已经给UOS上架全新的微信桌面端。。。）
-1. 可通过[http://pad-local.com/](http://pad-local.com/)获取pad-local协议。新人可免费使用7天，之后是200元一个月。。。
+2. 基于UOS操作系统修改请求头的方式登录网页微信[https://wx.qq.com/](https://wx.qq.com/)的手段已经失效（腾讯已经给UOS上架全新的微信桌面端。。。）
+3. 可通过[http://pad-local.com/](http://pad-local.com/)获取pad-local协议。新人可免费使用7天，之后是200元一个月。。。
+4. 可通过成为Wechaty Contributor的方式，获取长达>=1年的免费token，见[《如何向wechaty投稿blog获取免费token【保姆级教程】》](https://www.yuque.com/docs/share/a652d172-420b-441a-8819-986ac0d20fc7?# )。
 
 ## 二、功能包括：
 
