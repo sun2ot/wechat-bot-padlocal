@@ -63,6 +63,9 @@
 - 定时给个人发送消息
    - ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642080927687-f6ae10c7-5417-4b02-bb18-d09eab295415.png#clientId=ub9bf4024-6ca9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=48&id=ue458a79d&margin=%5Bobject%20Object%5D&name=image.png&originHeight=95&originWidth=405&originalType=binary&ratio=1&rotation=0&showTitle=false&size=9590&status=done&style=none&taskId=u07b63e4b-16e3-4c75-bad8-87bf04a0144&title=&width=202.5)
    - 2022年1月14日4点0分0秒向备注为樊庆元的联系人发送“我刚学完，早安”
+- :tada::tada::tada:新增拜年功能（可适用于多种节日）
+  -  ![greeting.png](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1643434323885-4ca3d81d-a9bd-42d4-a7f1-bdfdd1f4e88c.jpeg)
+  -    加上备注作为称谓，就不会被看出是群发的啦~诚意MAX
 
 ### 2.6 密码簿
 
