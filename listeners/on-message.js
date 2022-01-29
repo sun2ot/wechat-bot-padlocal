@@ -67,7 +67,7 @@ async function onMessage(msg) {
 async function onPeopleMessage(msg) {
   //获取发消息人
   const contact = msg.talker();
-  // console.log(contact);
+
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.includes(await contact.alias())) return;
 
@@ -75,9 +75,9 @@ async function onPeopleMessage(msg) {
 
   /* 特权消息 */
   if ((await contact.alias()) === config.MYSELF) {
-    // 获取备注要await
+    // 定时消息模块
     if (content.includes("定时")) {
-      console.log("定时");
+      console.log("定时"); //debug
       const remain = content.replace("定时", "").trim(); // 除开指令文本
 
       const timeAndStr = remain.split(" "); // 时间和消息内容
@@ -91,7 +91,7 @@ async function onPeopleMessage(msg) {
         date,
         async function (txt, target) {
           const contact = await bot.Contact.find({ alias: target }); // 收信人
-          if (contact === null) msg.say(`没有昵称为${target}的用户`);
+          if (contact === null) msg.say(`没有备注为${target}的联系人`);
           else {
             console.log(`向${contact.name()}发送'${txt}'`);
             contact.say(txt);
@@ -99,29 +99,64 @@ async function onPeopleMessage(msg) {
         }.bind(this, txt, target)
       );
       return true;
-    } else if (content.includes("map")) {
-      // map key value
+    } 
+    
+    //密码簿模块
+    else if (content.includes("map")) {
+      // pattern: map key value
       let command = content.replace("map", "").trim();
       command = command.split(" ");
       let key = command[0];
       key = cipher.md5(key); // 文件名加密
       let value = command[1];
       value = cipher.aes128(value); // 文件加密
-      console.log("writefile:  " + value);
+      console.log("writefile:  " + value); //debug
       fs.writeFile(path.join(__dirname, "/../password", key), value, (err) => {
         if (err) console.error("writeFileErr: " + err);
+        else msg.say('定时任务设置成功!');
       });
       return true;
     } else if (content.includes("get")) {
-      // get key
+      // pattern: get key
       let key = content.replace("get", "").trim();
       key = cipher.md5(key);
       fs.readFile(path.join(__dirname, "/../password", key), (err, data) => {
         if (err) console.error("readFileErr: " + err);
-        const detail = cipher.unaes128(data.toString());
-        console.log("readfile:  " + detail); // 文件解密
+        const detail = cipher.unaes128(data.toString()); //文件解密
+        console.log("readfile:  " + detail); // debug
         msg.say(detail);
       });
+      return true;
+    }
+
+    //拜年模块
+    else if (content.includes("节日")) {
+      //pattern: 节日 时间 联系人备注列表 通用祝福语
+      //demo: 节日 1.29.12.3.5 父皇，母后 新年快乐
+      console.log("节日"); //debug
+      const detail = content.replace("节日", "").trim();
+      const slice = detail.split(" ");
+
+      const timeStr = slice[0].split(".");
+      const contactList = slice[1].split("，"); //备注list
+      const greeting = slice[2];
+      const date = schedule.scheduleMsg(timeStr); //格式化为date对象
+
+      schedule.setSchedule(
+        date,
+        async function (contactList, greeting) {
+          for (let i = 0; i < contactList.length; i++) {
+            const contact = await bot.Contact.find({
+              alias: contactList[i]
+            });
+            if (!contact) {msg.say(`未找到备注为${contactList[i]}的联系人`)}
+            else {
+              const word = `${contactList[i]},${greeting}`; //xxx,节日祝福语
+              contact.say(word);
+            }
+          }
+        }.bind(this, contactList, greeting)
+      );
       return true;
     }
   }
