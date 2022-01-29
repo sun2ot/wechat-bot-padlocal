@@ -20,23 +20,25 @@ async function onLogin(user) {
 }
 
 /**
- * @func 8点半定时给指定群发送消息
+ * @func 10:25定时给指定群发送消息
  */
 async function rolling() {
   schedule.setSchedule(
     {
-      hour: 8,
-      minute: 30,
+      hour: 10,
+      minute: 25,
     },
 
     async () => {
-      const room = await bot.Room.find({
-        topic: config.WEBROOM,
-      });
-      const today = moment().format("MM月DD日");
-      let poison = await superagent.getSoup(); //毒鸡汤
-      const str = `今天是${today},你学废了吗?${poison}`;
-      await room.say(str);
+      const today = moment().format("MM月DD日"); //日期
+      const poison = await superagent.getSoup(); //毒鸡汤
+      const str = `今天是${today},你学废了吗?\n${poison}`;
+      for (let i=0; i<config.WEBROOM.length; i++) {
+        const room = await bot.Room.find({
+          topic: config.WEBROOM[i],
+        });
+        await room.say(str);
+      }
     }
   );
 }
