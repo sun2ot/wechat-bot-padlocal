@@ -13,7 +13,7 @@ function setSchedule(date, callback) {
 
 /**
  * @function 根据文本指令格式化日期字符串
- * @param {时间} timeStr 
+ * @param {格式时间数组} timeStr 
  */
  const scheduleMsg = function (timeStr) {
   const timeLen = timeStr.length;
