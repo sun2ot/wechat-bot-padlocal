@@ -25,8 +25,8 @@ async function onLogin(user) {
 async function rolling() {
   schedule.setSchedule(
     {
-      hour: 10,
-      minute: 25,
+      hour: 16,
+      minute: 05,
     },
 
     async () => {
