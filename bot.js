@@ -24,7 +24,3 @@ module.exports = bot;
 // const bot = new Wechaty({
 //   name: "WeChat-Robot"
 // });
-
-
-
-
