@@ -65,16 +65,22 @@ async function onMessage(msg) {
  * @time Modified 2022-01-09 18:37
  */
 async function onPeopleMessage(msg) {
-  //获取发消息人
   const contact = msg.talker();
-
-  //对config配置文件中 ignore的用户消息不必处理
-  if (config.IGNORE.includes(await contact.alias())) return;
-
+  // console.log(`发信人 ${contact}`); //debug
+  const senderAlias = await contact.alias();
+  console.log(`sender alias: ${senderAlias}`);  //debug
   const content = msg.text().trim(); // 消息内容 使用trim()去除前后空格
 
+  //对config配置文件中 ignore的用户消息不必处理
+  if (config.IGNORE.includes(senderAlias)) {
+    console.log(`ignoring ${senderAlias}`); //debug
+    return;
+  }
+  console.log("not ignore, continue...");   //debug
   /* 特权消息 */
-  if ((await contact.alias()) === config.MYSELF) {
+  if (senderAlias === config.MYSELF) {
+
+
     // 定时消息模块
     if (content.includes("定时")) {
       console.log("定时"); //debug
@@ -113,7 +119,7 @@ async function onPeopleMessage(msg) {
       console.log("writefile:  " + value); //debug
       fs.writeFile(path.join(__dirname, "/../password", key), value, (err) => {
         if (err) console.error("writeFileErr: " + err);
-        else msg.say('定时任务设置成功!');
+        else msg.say('记录成功!');
       });
       return true;
     } else if (content.includes("get")) {
