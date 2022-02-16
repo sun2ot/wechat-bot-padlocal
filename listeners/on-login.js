@@ -6,7 +6,7 @@
 const schedule = require("../schedule");
 const config = require("../config");
 const moment = require("../utils/moment");
-const superagent = require("../superagent");
+const request = require("../request");
 const bot = require("../bot");
 
 /**
@@ -25,14 +25,14 @@ async function onLogin(user) {
 async function rolling() {
   schedule.setSchedule(
     {
-      hour: 10,
-      minute: 25,
+      hour: 14,
+      minute: 30,
     },
 
     async () => {
       const today = moment().format("MM月DD日"); //日期
-      const poison = await superagent.getSoup(); //毒鸡汤
-      const str = `今天是${today},你学废了吗?\n${poison}`;
+      const poison = await request.getSoup(); //毒鸡汤
+      const str = `今天是${today},你毕业设计做完了吗?\n${poison}`;
       for (let i=0; i<config.WEBROOM.length; i++) {
         const room = await bot.Room.find({
           topic: config.WEBROOM[i],
