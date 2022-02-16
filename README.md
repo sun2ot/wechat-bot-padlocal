@@ -103,6 +103,8 @@
  * @time: 2022-01-03 12:36
  */
 module.exports = {
+  SERVER: "xxx", //服务器IP，用于图床
+
   PUPPET_TOKEN: "", // pad-local 
 
   TXAPI_TOKEN: "", // 天行数据
