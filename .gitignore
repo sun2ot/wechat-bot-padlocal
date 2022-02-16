@@ -2,3 +2,5 @@
 /.vscode/*
 /password/*
 /config/index.js
+*.jpg
+*.png
