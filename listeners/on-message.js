@@ -7,13 +7,15 @@ const bot = require("../bot.js");
 const { UrlLink } = require("wechaty");
 const path = require("path");
 const { FileBox } = require("file-box");
-const superagent = require("../superagent");
+const request = require("../request");
 const config = require("../config");
 const { colorRGBtoHex, colorHex } = require("../utils");
 const moment = require("../utils/moment");
 const schedule = require("../schedule");
 const fs = require("fs");
 const cipher = require("../utils/cipher");
+const ImageHosting = require("../utils/Image-Hosting");
+const wechatyPuppetPadlocal = require("wechaty-puppet-padlocal");
 
 const allKeywords = config.KEYWORDS();
 
@@ -54,9 +56,10 @@ async function onMessage(msg) {
   } else {
     //处理用户消息
     const isText = msg.type() === bot.Message.Type.Text;
-    if (isText) {
+    const isImg = msg.type() === bot.Message.Type.Image;
+    if (isText || isImg) {
       await onPeopleMessage(msg);
-    }
+    } 
   }
 }
 
@@ -65,16 +68,48 @@ async function onMessage(msg) {
  * @time Modified 2022-01-09 18:37
  */
 async function onPeopleMessage(msg) {
-  //获取发消息人
   const contact = msg.talker();
-
-  //对config配置文件中 ignore的用户消息不必处理
-  if (config.IGNORE.includes(await contact.alias())) return;
-
+  // console.log(`发信人 ${contact}`); //debug
+  const senderAlias = await contact.alias();
+  console.log(`sender alias: ${senderAlias}`);  //debug
   const content = msg.text().trim(); // 消息内容 使用trim()去除前后空格
 
+  //对config配置文件中 ignore的用户消息不必处理
+  if (config.IGNORE.includes(senderAlias)) {
+    console.log(`ignoring ${senderAlias}`); //debug
+    return;
+  }
+  console.log("not ignore, continue...");   //debug
   /* 特权消息 */
-  if ((await contact.alias()) === config.MYSELF) {
+  if (senderAlias === config.MYSELF) {
+
+    if (msg.type() === bot.Message.Type.Image) {
+      //todo 图像消息，触发图床功能
+      const fileBox = await msg.toFileBox();
+      const fileName = `${moment().format("X")}.jpg`; //! unix时间戳做文件名
+      const filePath = path.join(__dirname, `../../picture-bed/uploads/${fileName}`); //! 绝对路径,存入图床
+      await fileBox.toFile(filePath); //! 不指定，则默认为工作路径下
+      //? bug: const url = await ImageHosting.upload(filePath);
+      const url = `http://${config.SERVER}:1255/pic/${fileName}`;
+      console.log(`url is: ${url}`);//debug
+      await delay(200);
+      await msg.say(url);
+      return true;
+    }
+
+    if (content === "刷新") {
+      try {
+        wechatyPuppetPadlocal.syncContact(); //! 极度慎用！！！
+        await bot.Contact.findAll(); 
+        await delay(200);
+        msg.say('refresh success');
+      } catch (err) {
+        console.log("fresh err");
+        console.log(err);
+      }
+      return true;
+    }
+
     // 定时消息模块
     if (content.includes("定时")) {
       console.log("定时"); //debug
@@ -113,7 +148,7 @@ async function onPeopleMessage(msg) {
       console.log("writefile:  " + value); //debug
       fs.writeFile(path.join(__dirname, "/../password", key), value, (err) => {
         if (err) console.error("writeFileErr: " + err);
-        else msg.say('定时任务设置成功!');
+        else msg.say('记录成功!');
       });
       return true;
     } else if (content.includes("get")) {
@@ -197,22 +232,22 @@ async function onPeopleMessage(msg) {
       return;
     }
   } else if (content === "毒鸡汤" || parseInt(content) === 2) {
-    let soup = await superagent.getSoup();
+    let soup = await request.getSoup();
     await delay(200);
     await msg.say(soup);
     return;
   } else if (content === "神回复" || parseInt(content) === 3) {
-    const { title, content } = await superagent.getGodReply();
+    const { title, content } = await request.getGodReply();
     await delay(200);
     await msg.say(`标题：${title}\n--------------------\n神回复：${content}`);
     return;
   } else if (content === "每日英语" || parseInt(content) === 4) {
-    const { en, zh } = await superagent.getEnglishOne();
+    const { en, zh } = await request.getEnglishOne();
     await delay(200);
     await msg.say(`en：${en}\n--------------------\nzh：${zh}`);
     return;
   } else if (content === "全网热点" || parseInt(content) === 5) {
-    const hots = await superagent.getHot();
+    const hots = await request.getHot();
     let hotStr = ``;
     for (let i = 0; i < hots.length; i++) {
       hotStr =
@@ -253,8 +288,8 @@ async function onPeopleMessage(msg) {
     if (!isUtil) {
       // 非utils消息，转由AI回复
       console.log("AI will answer"); // debug
-      const signature = await superagent.getSignature();
-      const answer = await superagent.getAnswer(
+      const signature = await request.getSignature();
+      const answer = await request.getAnswer(
         signature,
         contact.id,
         msg.text()
@@ -299,12 +334,12 @@ async function onWebRoomMessage(msg) {
 
     /* 普通群友消息 */
     if (content === `@${config.BOTNAME}\u2005毒鸡汤`) {
-      let poison = await superagent.getSoup();
+      let poison = await request.getSoup();
       await delay(200);
       await msg.say(poison);
       return;
     } else if (content === `@${config.BOTNAME}\u2005每日英语`) {
-      const res = await superagent.getEnglishOne();
+      const res = await request.getEnglishOne();
       await delay(200);
       await msg.say(
         `en：${res.en}\n---------------------------\nzh：${res.zh}`
@@ -328,7 +363,7 @@ async function onWebRoomMessage(msg) {
 
       const testUrl = urlReg.exec(msg.text());
 
-      const valid = await superagent.checkUrl(testUrl[0]);
+      const valid = await request.checkUrl(testUrl[0]);
       if (!valid) {
         const room = msg.room();
         // const master = await room.member(config.BOTNAME);
@@ -347,8 +382,8 @@ async function onWebRoomMessage(msg) {
     else {
       if (content.includes(`@${config.BOTNAME}\u2005`)) {
         console.log("AI will answer"); // debug
-        const signature = await superagent.getSignature();
-        const answer = await superagent.getAnswer(
+        const signature = await request.getSignature();
+        const answer = await request.getAnswer(
           signature,
           contact.id,
           msg.text().replace(`@${config.BOTNAME}\u2005`, "")
@@ -417,7 +452,7 @@ async function onUtilsMessage(msg) {
     } else if (content.includes("天气")) {
       try {
         let cityName = content.replace("天气", "").trim(); // 城市名
-        const { city, realtime, future } = await superagent.getWeather(
+        const { city, realtime, future } = await request.getWeather(
           cityName
         );
         // 当天
@@ -441,7 +476,7 @@ async function onUtilsMessage(msg) {
       return true;
     } else if (content === "全国肺炎") {
       try {
-        const res = await superagent.getChinaFeiyan();
+        const res = await request.getChinaFeiyan();
         const chinaTotal = res.data.chinaTotal.total;
         const chinaToday = res.data.chinaTotal.today;
         const str = `全国新冠肺炎实时数据：
@@ -471,7 +506,7 @@ async function onUtilsMessage(msg) {
     else if (content.includes("肺炎")) {
       let newContent = content.replace("肺炎", "").trim(); // 城市名
       if (config.PROVINCE.includes(newContent)) {
-        const data = await superagent.getProvinceFeiyan(newContent);
+        const data = await request.getProvinceFeiyan(newContent);
         let citystr = `名称  确诊  治愈  死亡\n`;
         data.city.forEach((item) => {
           citystr =
