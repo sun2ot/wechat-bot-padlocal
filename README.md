@@ -80,8 +80,19 @@
    - 文件内容通过`aes-128-cbc`算法加密
    - ​![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250978600-073ca47a-d457-4871-9654-ceab710ac33e.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=65&id=u15ecefd6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=63&originWidth=320&originalType=binary&ratio=1&rotation=0&showTitle=false&size=3442&status=done&style=none&taskId=ua5f42482-6211-48b6-bfa3-7154ed26a18&title=&width=332)![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250992705-6ab643fb-8c03-4d23-b900-568cb0fad1cd.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=106&id=ud60f823b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=431&originalType=binary&ratio=1&rotation=0&showTitle=false&size=9476&status=done&style=none&taskId=u7811640f-a0cc-4979-b4de-139e317e33f&title=&width=377.5)
 
+
 ### 2.7 屏蔽指定联系人
+
 ![屏蔽](https://cdn.nlark.com/yuque/0/2022/png/10374984/1645691431433-e7054944-9a5f-43e7-bedd-20fd0cdb4c73.png?x-oss-process=image%2Fresize%2Cw_220%2Climit_0)
+
+### 2.8 监听群成员加入/退出
+
+- 加入群聊，机器人会在群聊内公布加入者和邀请人的名称
+![入群](https://cdn.nlark.com/yuque/0/2022/png/10374984/1645693130350-86b72a2c-d032-4ce2-8f08-c44b10dd52ac.png)
+
+- 退出群聊，机器人会向机器人master发送消息，说明何人退出了何群
+![退群](https://cdn.nlark.com/yuque/0/2022/png/10374984/1645693438916-3dcb9434-5296-4e9f-9abd-a8134fab700b.png)
+
 
 ## 三、目录结构
 
