@@ -9,6 +9,7 @@ const path = require("path");
 const { FileBox } = require("file-box");
 const request = require("../request");
 const config = require("../config");
+const reg = require("../config/RegularExpression");
 const { colorRGBtoHex, colorHex } = require("../utils");
 const moment = require("../utils/moment");
 const schedule = require("../schedule");
@@ -69,7 +70,9 @@ async function onMessage(msg) {
  */
 async function onPeopleMessage(msg) {
   const contact = msg.talker();
-  // console.log(`发信人 ${contact}`); //debug
+  console.log(`type: ${contact.type()}`);
+  if (!(contact.type() === bot.Contact.Type.Individual))
+    return; //! 避免 机器人 与 微信公众号 相爱相杀
   const senderAlias = await contact.alias();
   console.log(`sender alias: ${senderAlias}`);  //debug
   const content = msg.text().trim(); // 消息内容 使用trim()去除前后空格
@@ -192,6 +195,25 @@ async function onPeopleMessage(msg) {
           }
         }.bind(this, contactList, greeting)
       );
+      return true;
+    }
+
+    //添加屏蔽用户
+    else if (reg.IGNORE.test(content)) {
+      console.log('add ignore');
+      const targetAlias = content.replace("屏蔽", "").trim();
+      // const targetContact = bot.Contact.find({alias: targetAlias});
+      config.IGNORE.push(targetAlias);
+      console.log('添加成功!');
+      return true;
+    }
+
+    //解除屏蔽
+    else if (reg.UN_IGNORE.test(content)) {
+      console.log('delete ignore');
+      const targetAlias = content.replace("解除屏蔽", "").trim();
+      config.IGNORE.splice(config.IGNORE.indexOf(targetAlias), 1);
+      console.log('已解除!');
       return true;
     }
   }
@@ -471,7 +493,7 @@ async function onUtilsMessage(msg) {
         await delay(200);
         await msg.say(weatherStr);
       } catch (error) {
-        msg.say("接口错误");
+        msg.say("请输入[城市名 天气]");
       }
       return true;
     } else if (content === "全国肺炎") {
