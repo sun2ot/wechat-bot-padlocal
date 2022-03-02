@@ -24,9 +24,10 @@ async function onLogin(user) {
  */
 async function rolling() {
   schedule.setSchedule(
+    moment().format("X"),
     {
-      hour: 14,
-      minute: 30,
+      hour: 9,
+      minute: 00,
     },
 
     async () => {
@@ -37,7 +38,8 @@ async function rolling() {
         const room = await bot.Room.find({
           topic: config.WEBROOM[i],
         });
-        await room.say(str);
+        const contactList = await room.memberAll()
+        await room.say(str, ...contactList);
       }
     }
   );
