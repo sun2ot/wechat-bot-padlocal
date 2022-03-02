@@ -8,9 +8,9 @@ const superagent = require("superagent");
 
 /**
  * @function API请求封装
- * @param {官网} url 
- * @param {请求类型} method 
- * @param {参数} params 
+ * @param {string} url 请求链接 
+ * @param {string} method 请求类型
+ * @param {*} params 参数
  */
 function req(url, method, params) {
   return new Promise(function (resolve, reject) {
@@ -28,7 +28,7 @@ function req(url, method, params) {
 
 /**
  * @function 链接测试请求封装
- * @param {待测试链接} url 
+ * @param {string} url 待检测链接
  */
 function testUrl(url) {
   return new Promise(function (resolve) {
