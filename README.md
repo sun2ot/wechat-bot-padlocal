@@ -109,13 +109,21 @@
 该功能可用于记录常用的冗长文本，例如身份证号、银行卡号、购物时的好评模板等等。
 
 - 通过指令`map key value`可记录标签为`key`，内容为`value`的密码（在`password`目录下生成文件）
+  
   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252343505-1207f731-b5b1-4b7a-ace5-a8d05141dad7.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=47&id=uf8fab954&margin=%5Bobject%20Object%5D&name=image.png&originHeight=72&originWidth=251&originalType=binary&ratio=1&rotation=0&showTitle=false&size=7637&status=done&style=none&taskId=u4914fd4b-aa4b-4585-83a6-220f2eec4c3&title=&width=162.5)
+
 - 通过指令get key可以获取标签为key的密码
+  
   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252356719-4d01df56-bf3a-4097-989f-2b8d799e2bb2.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=62&id=uef08770e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=552&originalType=binary&ratio=1&rotation=0&showTitle=false&size=16043&status=done&style=none&taskId=ucceff7d4-5b17-4026-952c-ccc55222170&title=&width=276)
+
 - 文件加密
+  
   - 文件名通过`md5`算法比对
+  
   - 文件内容通过`aes-128-cbc`算法加密
+    
     ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250978600-073ca47a-d457-4871-9654-ceab710ac33e.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=65&id=u15ecefd6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=63&originWidth=320&originalType=binary&ratio=1&rotation=0&showTitle=false&size=3442&status=done&style=none&taskId=ua5f42482-6211-48b6-bfa3-7154ed26a18&title=&width=332)
+    
     ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250992705-6ab643fb-8c03-4d23-b900-568cb0fad1cd.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=106&id=ud60f823b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=431&originalType=binary&ratio=1&rotation=0&showTitle=false&size=9476&status=done&style=none&taskId=u7811640f-a0cc-4979-b4de-139e317e33f&title=&width=377.5)
 
 ### 2.7 屏蔽指定联系人
