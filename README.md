@@ -1,6 +1,6 @@
 [![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-green.svg)](https://wechaty.js.org)　[![Wechaty Contributor Program](https://img.shields.io/badge/Wechaty-Contributor%20Program-green.svg)](https://wechaty.js.org/docs/contributor-program)
 
-> README.md中的图片看不了是因为**gitee不支持外链图片。可前往github仓库查看https://github.com/yzh1255245824/wechat-bot-padlocal
+> README.md中的图片看不了是因为**gitee不支持外链图片。可前往[github仓库](https://github.com/yzh1255245824/wechat-bot-padlocal)查看
 
 ## 一、关于iPad协议token的问题
 
@@ -12,28 +12,48 @@
 ## 二、功能包括：
 
 ### 2.1 私聊消息处理：关键词回复，包括
+
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642080881372-700d60f3-706e-470a-841e-b290ac2a892a.png#clientId=ub9bf4024-6ca9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=351&id=ub6d550f2&margin=%5Bobject%20Object%5D&name=image.png&originHeight=490&originWidth=1029&originalType=binary&ratio=1&rotation=0&showTitle=false&size=51620&status=done&style=none&taskId=ub0b58d9b-863f-41ff-9cdd-70227a121ff&title=&width=736.5)
 
 - 在线实时数据获取服务由API服务商提供
-   - 毒鸡汤
-  ![IMG_20220115_210015.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251790983-1f8ba6c7-9dfa-4303-a975-d4a4166cebf4.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=98&id=u54d5bbf0&margin=%5Bobject%20Object%5D&name=IMG_20220115_210015.jpg&originHeight=390&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=62527&status=done&style=none&taskId=ud5d33a59-0b48-40ac-b12c-5b4c85b0903&title=&width=270.3999938964844)
-   - 神回复
-  ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251891940-efb62c6d-872e-44be-bf67-6f1d546a1c19.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=97&id=uef8a95e6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=1000&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28530&status=done&style=none&taskId=u601f621f-73e7-42c7-a95e-1883548604a&title=&width=500)
-   - 每日英语
-  ![IMG_20220115_205958.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251852399-ad4a37d8-dd79-423a-938a-c28d2f812c4e.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=178&id=ue127576f&margin=%5Bobject%20Object%5D&name=IMG_20220115_205958.jpg&originHeight=788&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=170063&status=done&style=none&taskId=u0f8795f7-5065-4228-98fe-75d2e20fdcd&title=&width=243.39999389648438)
-   - 全网热点
-  ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251912239-a0c0a2e7-41f9-410c-a795-87d535a0037f.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=262&id=u20b471ef&margin=%5Bobject%20Object%5D&name=image.png&originHeight=523&originWidth=1007&originalType=binary&ratio=1&rotation=0&showTitle=false&size=70178&status=done&style=none&taskId=uced61b64-ffeb-4c84-90d8-9bd7bbdd4c6&title=&width=503.5)
-   - 城市天气
-  ![IMG_20220115_210107.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251746603-3d9e917b-c58d-41cb-9534-90403fa64d2c.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=246&id=u259edc87&margin=%5Bobject%20Object%5D&name=IMG_20220115_210107.jpg&originHeight=991&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=156035&status=done&style=none&taskId=u85219df2-8a2d-4942-952f-8139ae1f0da&title=&width=268.3999938964844)
-   - 客服
-  ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251938181-445a9ebc-0c56-4a5e-8c25-f15565ca7d4a.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=108&id=u8b0e0f95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=215&originWidth=1040&originalType=binary&ratio=1&rotation=0&showTitle=false&size=32890&status=done&style=none&taskId=u9cdde491-d654-4403-9ead-f7892e59a7f&title=&width=520)
+  
+  - 毒鸡汤
+  
+    ![IMG_20220115_210015.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251790983-1f8ba6c7-9dfa-4303-a975-d4a4166cebf4.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=98&id=u54d5bbf0&margin=%5Bobject%20Object%5D&name=IMG_20220115_210015.jpg&originHeight=390&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=62527&status=done&style=none&taskId=ud5d33a59-0b48-40ac-b12c-5b4c85b0903&title=&width=270.3999938964844)
+
+  - 神回复
+  
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251891940-efb62c6d-872e-44be-bf67-6f1d546a1c19.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=97&id=uef8a95e6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=193&originWidth=1000&originalType=binary&ratio=1&rotation=0&showTitle=false&size=28530&status=done&style=none&taskId=u601f621f-73e7-42c7-a95e-1883548604a&title=&width=500)
+
+  - 每日英语
+
+    ![IMG_20220115_205958.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251852399-ad4a37d8-dd79-423a-938a-c28d2f812c4e.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=178&id=ue127576f&margin=%5Bobject%20Object%5D&name=IMG_20220115_205958.jpg&originHeight=788&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=170063&status=done&style=none&taskId=u0f8795f7-5065-4228-98fe-75d2e20fdcd&title=&width=243.39999389648438)
+
+  - 全网热点
+
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251912239-a0c0a2e7-41f9-410c-a795-87d535a0037f.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=262&id=u20b471ef&margin=%5Bobject%20Object%5D&name=image.png&originHeight=523&originWidth=1007&originalType=binary&ratio=1&rotation=0&showTitle=false&size=70178&status=done&style=none&taskId=uced61b64-ffeb-4c84-90d8-9bd7bbdd4c6&title=&width=503.5)
+
+  - 城市天气
+
+    ![IMG_20220115_210107.jpg](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1642251746603-3d9e917b-c58d-41cb-9534-90403fa64d2c.jpeg#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=drop&height=246&id=u259edc87&margin=%5Bobject%20Object%5D&name=IMG_20220115_210107.jpg&originHeight=991&originWidth=1080&originalType=binary&ratio=1&rotation=0&showTitle=false&size=156035&status=done&style=none&taskId=u85219df2-8a2d-4942-952f-8139ae1f0da&title=&width=268.3999938964844)
+
+  - 客服
+  
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251938181-445a9ebc-0c56-4a5e-8c25-f15565ca7d4a.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=108&id=u8b0e0f95&margin=%5Bobject%20Object%5D&name=image.png&originHeight=215&originWidth=1040&originalType=binary&ratio=1&rotation=0&showTitle=false&size=32890&status=done&style=none&taskId=u9cdde491-d654-4403-9ead-f7892e59a7f&title=&width=520)
+
 - 文本处理功能由本地编写算法处理
-   - 英文字符串转大/小写
-   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251979526-8b4330b8-8c19-49cb-bf3e-3eab05cfe3ed.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=73&id=ueda379bb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=568&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17275&status=done&style=none&taskId=ua555ea14-7817-40d7-ac48-07ef89aee69&title=&width=284)
-   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251999046-aa779af5-c111-4020-9601-8f1d7f70e9cd.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=66&id=u8cce8f06&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=546&originalType=binary&ratio=1&rotation=0&showTitle=false&size=16842&status=done&style=none&taskId=u7753cb2c-deb8-4b07-993c-42b018f9a04&title=&width=282)
-   - rgb`<=>`hex
-   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252053243-6a213ea2-9f36-4100-a02d-c7d02aa3ca66.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=63&id=u5355e26b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=125&originWidth=551&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17651&status=done&style=none&taskId=u95cf2447-2367-4e5e-9f0a-e55971597a6&title=&width=275.5)
-   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252152039-68354e67-65cd-4c0b-9f6e-2914cc3f85c7.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=61&id=ufc69b0c7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=544&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17431&status=done&style=none&taskId=u3dcafa3f-3598-410b-bdc9-c466c43da91&title=&width=272)
+  
+  - 英文字符串转大/小写
+  
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251979526-8b4330b8-8c19-49cb-bf3e-3eab05cfe3ed.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=73&id=ueda379bb&margin=%5Bobject%20Object%5D&name=image.png&originHeight=145&originWidth=568&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17275&status=done&style=none&taskId=ua555ea14-7817-40d7-ac48-07ef89aee69&title=&width=284)
+
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642251999046-aa779af5-c111-4020-9601-8f1d7f70e9cd.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=66&id=u8cce8f06&margin=%5Bobject%20Object%5D&name=image.png&originHeight=127&originWidth=546&originalType=binary&ratio=1&rotation=0&showTitle=false&size=16842&status=done&style=none&taskId=u7753cb2c-deb8-4b07-993c-42b018f9a04&title=&width=282)
+
+  - rgb`<=>`hex
+
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252053243-6a213ea2-9f36-4100-a02d-c7d02aa3ca66.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=63&id=u5355e26b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=125&originWidth=551&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17651&status=done&style=none&taskId=u95cf2447-2367-4e5e-9f0a-e55971597a6&title=&width=275.5)
+    
+    ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252152039-68354e67-65cd-4c0b-9f6e-2914cc3f85c7.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=61&id=ufc69b0c7&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=544&originalType=binary&ratio=1&rotation=0&showTitle=false&size=17431&status=done&style=none&taskId=u3dcafa3f-3598-410b-bdc9-c466c43da91&title=&width=272)
 
 ### 2.2 群管理
 
@@ -49,7 +69,7 @@
 
 - 自动通过好友请求
 - 可限制通过填写指定验证消息的好友
-   - 避免陌生人添加好友
+  - 避免陌生人添加好友
 
 ### 2.4 智能对话（接入微信对话开放平台）
 
@@ -58,8 +78,8 @@
 ### 2.5 设置定时任务(可循环、可单次）
 
 - 定时发送群消息
-   - 登录时创建任务
-   - 暂不支持指令设置任务，只可通过修改源码
+  - 登录时创建任务
+  - 暂不支持指令设置任务，只可通过修改源码
 
 - 定时给个人发送消息  
 
@@ -93,8 +113,8 @@
 - 通过指令get key可以获取标签为key的密码
   ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642252356719-4d01df56-bf3a-4097-989f-2b8d799e2bb2.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=62&id=uef08770e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=123&originWidth=552&originalType=binary&ratio=1&rotation=0&showTitle=false&size=16043&status=done&style=none&taskId=ucceff7d4-5b17-4026-952c-ccc55222170&title=&width=276)
 - 文件加密
-   - 文件名通过`md5`算法比对
-   - 文件内容通过`aes-128-cbc`算法加密
+  - 文件名通过`md5`算法比对
+  - 文件内容通过`aes-128-cbc`算法加密
     ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250978600-073ca47a-d457-4871-9654-ceab710ac33e.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=65&id=u15ecefd6&margin=%5Bobject%20Object%5D&name=image.png&originHeight=63&originWidth=320&originalType=binary&ratio=1&rotation=0&showTitle=false&size=3442&status=done&style=none&taskId=ua5f42482-6211-48b6-bfa3-7154ed26a18&title=&width=332)
     ![image.png](https://cdn.nlark.com/yuque/0/2022/png/10374984/1642250992705-6ab643fb-8c03-4d23-b900-568cb0fad1cd.png#clientId=uade48328-94f0-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=106&id=ud60f823b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=121&originWidth=431&originalType=binary&ratio=1&rotation=0&showTitle=false&size=9476&status=done&style=none&taskId=u7811640f-a0cc-4979-b4de-139e317e33f&title=&width=377.5)
 
@@ -117,10 +137,10 @@
 - `config`文件夹存放公共配置文件以及`superagent`请求相关配置
 - `imgs`存放相关图片
 - `listeners`存放机器人初始化后一系列事件处理(分模块) 
-   - `on-friendship.js` 处理好友请求
-   - `on-login.js` 处理登录
-   - `on-message.js` 处理用户消息、群消息
-   - `on-scan.js` 处理登录二维码
+  - `on-friendship.js` 处理好友请求
+  - `on-login.js` 处理登录
+  - `on-message.js` 处理用户消息、群消息
+  - `on-scan.js` 处理登录二维码
 - `schedule` 对定时任务`node-schedule`库进行了封装
 - `superagent` 存放所有的数据请求、接口封装都在此
 - `utils` 公用方法的封装
