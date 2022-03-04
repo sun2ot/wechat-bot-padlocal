@@ -135,9 +135,18 @@ function cancelJob(content) {
   return status;
 }
 
+/**
+ * @func 通过id直接销毁
+ * @param {string} jobId 任务id
+ */
+function cancelJobName(jobId) {
+  return schedule.cancelJob(jobId);
+}
+
 module.exports = {
   SendMode,
   setSchedule,
   scheduleMsg,
   cancelJob,
+  cancelJobName
 };
