@@ -16,9 +16,7 @@ const schedule = require("../schedule");
 const fs = require("fs");
 const cipher = require("../utils/cipher");
 const ImageHosting = require("../utils/Image-Hosting");
-const wechatyPuppetPadlocal = require("wechaty-puppet-padlocal");
-
-const allKeywords = config.KEYWORDS();
+const wechatyPuppetPadlocal = require(path.join(__dirname, '../node_modules/wechaty-puppet-padlocal/dist/puppet-padlocal.js'));
 
 process.on("unhandledRejection", (error) => {
   console.log("g点重现: ", error.message);
@@ -47,8 +45,6 @@ async function onMessage(msg) {
     const roomName = await room.topic();
     if (config.WEBROOM.includes(roomName)) {
       //属于被监听群聊
-      console.log("群消息");
-      //处理群消息
       await onWebRoomMessage(msg);
     } else return; 
   } else {
@@ -72,8 +68,10 @@ async function onPeopleMessage(msg) {
     return; //! 避免 机器人 与 微信公众号 相爱相杀
   const senderAlias = await contact.alias();
   console.log(`sender alias: ${senderAlias}`);  //debug
-  const content = msg.text().trim(); // 消息内容 使用trim()去除前后空格
-
+  let content = msg.text(); // 消息内容
+  if (msg.room()) 
+    content = content.replace(`@${config.BOTNAME}\u2005`, "");
+  
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.includes(senderAlias)) {
     console.log(`ignoring ${senderAlias}`); //debug
@@ -97,9 +95,20 @@ async function onPeopleMessage(msg) {
       return true;
     }
 
+    if (content === "菜单") {
+      await delay(200);
+      await msg.say(config.KEYWORDS()+config.VIP()); // 展示菜单+隐藏菜单
+      return;
+    }
+
     if (content === "刷新") {
+      await bot.Contact.findAll(); 
+      await delay(200);
+      msg.say('refresh success');
+      return true;
+    } else if (content === "重载") {
       try {
-        wechatyPuppetPadlocal.syncContact(); //! 极度慎用！！！
+        await wechatyPuppetPadlocal.syncContact(); //! 极度慎用！！！
         await bot.Contact.findAll(); 
         await delay(200);
         msg.say('refresh success');
@@ -201,7 +210,7 @@ async function onPeopleMessage(msg) {
   /* 普通消息 */
   if (content === "菜单") {
     await delay(200);
-    await msg.say(allKeywords); // 展示菜单
+    await msg.say(config.KEYWORDS()); // 展示菜单
     return;
   } else if (content === "打赏") {
     // 收款二维码
@@ -263,11 +272,6 @@ async function onPeopleMessage(msg) {
     await delay(200);
     await msg.say(hotStr);
     return;
-  } else if (content === "对本条消息存在疑惑" || parseInt(content) === 99) {
-    await delay(200);
-    await msg.say(`当前微信账户正挂载于第三方服务器，目的是测试本人的毕业设计《基于Node.js和Wechaty的个人微信机器人》\n
-请不要频繁调用“菜单”列出的功能！！！\n该系统不会影响我即时准确收到您的微信消息，待我看到后会第一时间回复您，请不要着急！！！`);
-    return;
   } else if (content === "怎么办" || content === "我有一个问题") {
     //发送链接卡片  web版协议不可用。
     const urlLink = new UrlLink({
@@ -279,7 +283,7 @@ async function onPeopleMessage(msg) {
     await delay(200);
     await msg.say(urlLink);
     return;
-  } else if (content === "客服" || parseInt(content) === 6) {
+  } else if (content === "客服" || parseInt(content) === 7) {
     const contactCard = await bot.Contact.find({ alias: config.MYSELF });
     await msg.say(contactCard);
     return;
@@ -308,13 +312,16 @@ async function onPeopleMessage(msg) {
  * @time Modified 2022-01-09 23:17
  */
 async function onWebRoomMessage(msg) {
+
   const isText = msg.type() === bot.Message.Type.Text;
+  const room = msg.room();
 
   if (isText) {
-    // 响应文本消息
+    // 响应@bot的文本消息
     const contact = msg.talker();
     const sender = await contact.alias();
-    const content = msg.text().trim();
+    let content = msg.text();
+    // content = content.replace(`@${config.BOTNAME}\u2005`, "");
 
     /* 特权消息 */
     if (sender === config.MYSELF) {
@@ -322,44 +329,24 @@ async function onWebRoomMessage(msg) {
       if (content.includes("踢@")) {
         //如果是机器人好友且备注是自己的大号备注  才执行踢人操作
         // edit at 0109：备注无法获取是因为要等官方后台数据刷新才行。踢人要管理员权限
-        if (contact.friend()) {
-          const delName = content.replace("踢@", "").trim();
-          console.log("踢出" + delName); // debug
-          const delContact = await room.member({ name: delName });
-          await room.del(delContact);
-          await msg.say(`<${delName}>已被移除群聊。且聊且珍惜啊！`);
-        }
+        const delName = content.replace("踢@", "").trim();
+        console.log("踢出" + delName); // debug
+        const delContact = await room.member({ name: delName }); //! 按name搜索存在同名的情况，如果可以还是要用wx_id
+        await room.del(delContact);
+        await msg.say(`<${delName}>已被移除群聊。且聊且珍惜啊！`);
         return;
       }
     }
 
-    /* 普通群友消息 */
-    if (content === `@${config.BOTNAME}\u2005毒鸡汤`) {
-      let poison = await request.getSoup();
-      await delay(200);
-      await msg.say(poison);
-      return;
-    } else if (content === `@${config.BOTNAME}\u2005每日英语`) {
-      const res = await request.getEnglishOne();
-      await delay(200);
-      await msg.say(
-        `en：${res.en}\n---------------------------\nzh：${res.zh}`
-      );
-      return;
-    } else if (content === `@${config.BOTNAME}\u2005怎么办`) {
-      //发送链接卡片  web版协议不可用。
-      const urlLink = new UrlLink({
-        description: "Grass Mud horse, can't you Baidu?！",
-        thumbnailUrl: `https://s2.loli.net/2022/01/09/iFqzXfYhSO2vKt3.jpg`,
-        title: "What's your problem?",
-        url: "https://www.baidu.com",
-      });
-      await msg.say(urlLink);
+    //todo 将群聊内的指令直接作为people消息处理
+    if (await msg.mentionSelf()) {
+      console.log(`room: someone mentioned me`); // debug
+      await onPeopleMessage(msg);
       return;
     }
 
     // 检验链接消息合法性
-    else if (reg.URL.test(msg.text())) {
+    if (reg.URL.test(msg.text())) {
       reg.URL.lastIndex = 0; // 索引重置
 
       const testUrl = reg.URL.exec(msg.text());
@@ -377,24 +364,6 @@ async function onWebRoomMessage(msg) {
         return true;
       }
       return;
-    }
-
-    // 群消息转向AI/utils消息处理
-    else {
-      if (content.includes(`@${config.BOTNAME}\u2005`)) {
-        console.log("AI will answer"); // debug
-        const signature = await request.getSignature();
-        const answer = await request.getAnswer(
-          signature,
-          contact.id,
-          msg.text().replace(`@${config.BOTNAME}\u2005`, "")
-        );
-        await delay(200);
-        await msg.say(answer);
-        return;
-      } else {
-        await onUtilsMessage(msg);
-      }
     }
   }
 }
