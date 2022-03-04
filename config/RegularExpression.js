@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-02-24 15:22:22
- * @LastEditTime: 2022-03-01 20:49:35
+ * @LastEditTime: 2022-03-02 16:12:22
  * @Description: 指令正则表达式
  */
 module.exports = {
@@ -16,6 +16,6 @@ module.exports = {
     // 销毁 任务id
     CANCEL: /^销毁\s[0-9]{10,11}$/,
     URL: /(http(s)?:\/\/)?[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z0-9][-a-zA-Z0-9]{0,62})+(:[0-9]{1,5})?[-a-zA-Z0-9()@:%_\\\+\.~#?&//=]*$/g,
-    IGNORE: /^屏蔽/,
-    UN_IGNORE: /^解除屏蔽/
+    IGNORE: /^屏蔽\s\S.+/,
+    UN_IGNORE: /^解除屏蔽\s\S.+/
 }
