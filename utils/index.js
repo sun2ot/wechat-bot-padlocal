@@ -22,7 +22,7 @@ function colorRGBtoHex(color) {
  */
 function colorHextoRGB(color) {
     // 16进制颜色值的正则
-    var reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+    var reg = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
     // 把颜色值变成小写
     if (reg.test(color)) {
         // 如果只有三位的值，需变成六位，如：#fff => #ffffff
