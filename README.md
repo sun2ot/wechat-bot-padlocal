@@ -1,13 +1,20 @@
 [![Powered by Wechaty](https://img.shields.io/badge/Powered%20By-Wechaty-green.svg)](https://wechaty.js.org)　[![Wechaty Contributor Program](https://img.shields.io/badge/Wechaty-Contributor%20Program-green.svg)](https://wechaty.js.org/docs/contributor-program)
 
-> README.md中的图片看不了是因为**gitee不支持外链图片。可前往[github仓库](https://github.com/yzh1255245824/wechat-bot-padlocal)查看
+> 如果您是在gitee看到这个repo，README.md中的图片看不了是因为甜蜜的gitee不支持外链图片。可前往[github仓库](https://github.com/yzh1255245824/wechat-bot-padlocal)查看。
+
+# Please note that
+
+有问题请提交`issue`，我会及时回复的。**请不要擅自加我的微信**。
+
+---
 
 ## 一、关于iPad协议token的问题
 
-1. 目前web协议的wechaty通常情况下已经无法使用（可自行百度网页版微信登陆尝试，能登上就可以用）
+1. :rotating_light:目前web协议的wechaty通常情况下已经无法使用（可自行百度网页版微信登陆尝试，能登上就可以用）
 2. 基于UOS操作系统修改请求头的方式登录网页微信[https://wx.qq.com/](https://wx.qq.com/)的手段已经失效（腾讯已经给UOS上架全新的微信桌面端。。。）
 3. 可通过[http://pad-local.com/](http://pad-local.com/)获取pad-local协议。新人可免费使用7天，之后是200元一个月。。。
 4. 可通过成为Wechaty Contributor的方式，获取长达>=1年的免费token，见[《如何向wechaty投稿blog获取免费token【保姆级教程】》](https://www.yuque.com/docs/share/a652d172-420b-441a-8819-986ac0d20fc7?# )。
+> 教程撰写不易，如果对您有帮助还请动动小手点个赞:bulb:
 
 ## 二、功能包括：
 
@@ -140,20 +147,28 @@
 - 退出群聊，机器人会向机器人master发送消息，说明何人退出了何群
   ![退群](https://cdn.nlark.com/yuque/0/2022/png/10374984/1645693438916-3dcb9434-5296-4e9f-9abd-a8134fab700b.png)
 
+### 2.9 :tada:图床
+
+- 向机器人发送图片时，将触发图床功能，由机器人接收图片后将其上传至图床服务器
+  ![图床](https://cdn.nlark.com/yuque/0/2022/png/10374984/1646729685695-e3b22456-5c94-4634-821a-f518bd22e02d.png)
+  图片可在浏览器进行访问，也可以插入`markdown`文档
 
 ## 三、目录结构
 
-- `config`文件夹存放公共配置文件以及`superagent`请求相关配置
-- `imgs`存放相关图片
-- `listeners`存放机器人初始化后一系列事件处理(分模块) 
+- `config/`文件夹存放公共配置
+- `imgs/`存放相关图片
+- `password/` 存放密码簿生成文件
+- `listeners/`存放机器人初始化后一系列事件处理(分模块) 
   - `on-friendship.js` 处理好友请求
   - `on-login.js` 处理登录
   - `on-message.js` 处理用户消息、群消息
   - `on-scan.js` 处理登录二维码
-- `schedule` 对定时任务`node-schedule`库进行了封装
-- `superagent` 存放所有的数据请求、接口封装都在此
-- `utils` 公用方法的封装
-- `app.js` 入口文件
+  - `on-room-join/leave` 处理用户加入/退出群聊
+- `schedule/` 对定时任务`node-schedule`库进行了封装
+- `superagent/` 存放所有的数据请求、接口封装都在此
+- `utils/` 公用方法的封装
+- `bot.js` 机器人实例文件
+- `start.js` 入口文件
 
 ## 四、clone后请按照如下操作修改
 需修改`config`配置，将里面的配置改为自己的。打开`config/`目录并新建`index.js` 文件， 文件内容如下：
@@ -164,9 +179,9 @@
  * @time: 2022-01-03 12:36
  */
 module.exports = {
-  SERVER: "xxx", //服务器IP，用于图床
+  SERVER: "", //服务器IP
 
-  PUPPET_TOKEN: "", // pad-local 
+  PUPPET_TOKEN: "", // pad-local
 
   TXAPI_TOKEN: "", // 天行数据
 
@@ -174,13 +189,13 @@ module.exports = {
 
   WXAI_TOKEN: "", // 微信对话开放平台
 
-  IGNORE: ["张锦恒"], //不需机器人回复的用户，填写用户备注，非昵称
+  IGNORE: ["xxx"], //不需机器人回复的用户，填写用户备注，非昵称
 
-  WEBROOM: ["test","test2"], //要管理的群名称
+  WEBROOM: ["test", "test2"], //要管理的群名称
 
-  MYSELF: "小易", //大号的备注，防止其他人冒充
+  MYSELF: "xx", //大号的备注，防止其他人冒充
 
-  BOTNAME: "Crystal", // 机器人的昵称
+  BOTNAME: "xx", // 机器人的昵称
 
   PROVINCE: [
     "北京",
@@ -216,26 +231,35 @@ module.exports = {
     "西藏",
     "青海",
     "新疆",
-    "宁夏"
+    "宁夏",
   ],
 
-  KEYWORDS: function() { 
+  KEYWORDS: function () {
     return `回复序号或关键字获取对应服务
 1.回复群名进入群聊：${this.WEBROOM}
 2.毒鸡汤
 3.神回复
 4.每日英语
 5.全网热点
-6.客服
-99.对本条消息存在疑惑
+6.全国肺炎
+7.客服
 ------------------
-转小写(例：转小写YZHYYDS)
-转大写(例：转大写yzhyyds)
-转rgb(例：转rgb#cccccc)
-转16进制(例：转16进制rgb(255,255,255))
-天气 城市名(例：天气 武汉)
-全国肺炎(实时肺炎数据)
-省份/自治区 肺炎(例：河南肺炎)`
+转小写(例：转小写 YZHYYDS)
+转大写(例：转大写 yzhyyds)
+转rgb(例：转rgb #cccccc)
+转16进制(例：转16进制 rgb(255,255,255))
+城市名 天气(例：武汉 天气)
+省份/自治区 肺炎(例：湖北 肺炎)
+------------------\n`;
+  },
+
+  VIP: function() {
+    return `密码簿\n(例：map test 123456\nget test)\n` + 
+           `定时消息\n(例：定时 M.D.H.m.s 目标 信息)\n` +
+           `群发消息\n(例：群发 M.D.H.m.s 目标1[，目标2] 信息)\n` +
+           `销毁定时\n(例:销毁 id)\n` +
+           `刷新联系人数据(!WARNING!)\n` +
+           `[解除]屏蔽\n(例：屏蔽 张三(->备注))` 
   }
 };
 ```
@@ -271,23 +295,37 @@ npm install
 ```
 
 ```bash
-npm start
+npm start start.js
 ```
 
 > 非常不建议使用`cnpm`，请自行百度`nrm`使用方法或者手动修改国内镜像。当然，执意要用的话请务必这么使用：
 `cnpm i --by=npm`
 
-启动后，终端会出现一个二维码，扫码登录即可。
-
-> 扫码过程可能会重复若干次，根据我的观察，第一个二维码会偏小一点，然后后面几个陆续会偏大，等它不停地刷二维码时，重新出现一个较小的二维码时，估摸着你就登录成功了。。。很玄学是吧2333
-
-若二维码显示的很诡异，无法扫描，请更换终端（去微软商店下载`Windows Terminal`）。
+如果部署于服务器，可使用PM2进行管理
+```shell
+[root@xx ~]# pm2 start start.js
+```
 
 ---
 
-有问题可邮箱咨询`yizhihang@foxmail.com`
+启动后，终端会出现一个二维码，扫码登录即可。
+
+> 控制台也许会打印多个二维码，扫一个耐心等待即可。如果确实没登上去再后面出来的。
+
+> 退出登录后再重新登录时，你的手机会自动弹出iPad的登录请求，点击后耐心等待即可。如果确实没登上去再扫控制台的二维码登录。
+
+若控制台打印的二维码是支离破碎的，无法扫描，请更换终端。
+> 我在本机用的是`Windows Terminal`，ECS服务器用`xhell`连接。
+
+---
+
 
 ## 六、更新日志
+
+2022-03-08
+
+- :art:优化控制台日志打印格式，带时间戳
+- 修复了离线消息的处理问题（从离线状态恢复登录时，仅响应1分钟内收到的消息事件）
 
 2022-03-04
 
