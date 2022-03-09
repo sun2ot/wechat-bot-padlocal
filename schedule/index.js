@@ -138,9 +138,11 @@ function cancelJob(content) {
 /**
  * @func 通过id直接销毁
  * @param {string} jobId 任务id
+ * @return 是否销毁成功
  */
 function cancelJobName(jobId) {
-  return schedule.cancelJob(jobId);
+  const status = schedule.cancelJob(jobId);
+  return status;
 }
 
 module.exports = {
