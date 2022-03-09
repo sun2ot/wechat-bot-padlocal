@@ -4,6 +4,8 @@
  * @time 2022-01-11
  */
 
+const moment = require('./moment');
+
 /**
  * rgb转hex
  * @param color rgb颜色值
@@ -42,8 +44,26 @@ function colorHextoRGB(color) {
     } else {
         return color;
     }
-};
+}
+
+function timestamp() {
+    const stamp = moment().format('M-DD HH:mm:ss');
+    return stamp;
+}
+
+/**
+ * @func log方法重载,带时间戳
+ * @param {string} content 
+ */
+function log(content) {
+    const loginfo = `${timestamp()} ${content}`;
+    console.log(loginfo);
+}
+
+//timestamp();
 
 module.exports = {
-    colorRGBtoHex, colorHex: colorHextoRGB
+    colorRGBtoHex, 
+    colorHextoRGB,
+    log
 }

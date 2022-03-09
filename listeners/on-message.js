@@ -4,18 +4,25 @@
  * @time 2022-01-11
  */
 const bot = require("../bot.js");
-const { UrlLink } = require("wechaty");
-const path = require("path");
-const { FileBox } = require("file-box");
+
 const request = require("../request");
+
+const { UrlLink } = require("wechaty");
+const { FileBox } = require("file-box");
+
+const fs = require("fs");
+const path = require("path");
+
 const config = require("../config");
 const reg = require("../config/RegularExpression");
-const { colorRGBtoHex, colorHex } = require("../utils");
+
+const util = require("../utils");
 const moment = require("../utils/moment");
-const schedule = require("../schedule");
-const fs = require("fs");
 const cipher = require("../utils/cipher");
 const ImageHosting = require("../utils/Image-Hosting");
+
+const schedule = require("../schedule");
+
 const wechatyPuppetPadlocal = require(path.join(__dirname, '../node_modules/wechaty-puppet-padlocal/dist/puppet-padlocal.js'));
 
 process.on("unhandledRejection", (error) => {
@@ -23,19 +30,32 @@ process.on("unhandledRejection", (error) => {
 });
 
 /**
- * @function 中间件函数,延迟处理消息
- * @param {number} ms 延迟时长
+ * @function 延迟处理消息
+ * @param {number} ms 延迟毫秒
  */
-const delay = (ms) =>
+const delay = ms =>
   new Promise((resolve) => setTimeout(resolve, ms)).catch((err) => {
     console.log("delay: " + err.message);
   });
+
+  /**
+   * @func 是否为1分钟内的消息
+   * @returns true/false
+   */
+const recent = msg => {
+  if (msg.age() > 60)
+    return false;
+  return true;
+}
 
 /**
  * @func 处理消息
  * @time Create 2022-01-09 10:45
  */
 async function onMessage(msg) {
+  //! 避免机器人离线调试时，用户发送大量信息，致使消息事件堆积
+  if (!recent(msg)) return;
+
   //防止自己和自己对话
   if (msg.self()) return;
 
@@ -67,17 +87,17 @@ async function onPeopleMessage(msg) {
   if (!(contact.type() === bot.Contact.Type.Individual))
     return; //! 避免 机器人 与 微信公众号 相爱相杀
   const senderAlias = await contact.alias();
-  console.log(`sender alias: ${senderAlias}`);  //debug
+  util.log(`sender alias: ${senderAlias}`); //debug
   let content = msg.text(); // 消息内容
   if (msg.room()) 
     content = content.replace(`@${config.BOTNAME}\u2005`, "");
   
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.includes(senderAlias)) {
-    console.log(`ignoring ${senderAlias}`); //debug
+    util.log(`ignoring ${senderAlias}`); //debug
     return;
   }
-  console.log("not ignore, continue...");   //debug
+  util.log("not ignore, continue...");   //debug
   /* 特权消息 */
   if (senderAlias === config.MYSELF) {
 
@@ -89,7 +109,7 @@ async function onPeopleMessage(msg) {
       await fileBox.toFile(filePath); //! 不指定，则默认为工作路径下
       //? bug: const url = await ImageHosting.upload(filePath);
       const url = `http://${config.SERVER}:1255/pic/${fileName}`;
-      console.log(`url is: ${url}`);//debug
+      util.log(`url is: ${url}`);//debug
       await delay(200);
       await msg.say(url);
       return true;
@@ -156,7 +176,7 @@ async function onPeopleMessage(msg) {
     else if (content.includes("map")) {
       if (reg.IN_CODEBOOK.test(content)) {
         const {filename, filecontent} = await cipher.InCodebook(content);
-        console.log(`filename: ${filename}\nfilecontent: ${filecontent}`); // debug
+        util.log(`filename: ${filename}\nfilecontent: ${filecontent}`); // debug
         fs.writeFile(path.join(__dirname, "/../password", filename), filecontent, (err) => {
           if (err) console.error("writeFileErr: " + err);
           else msg.say("记录成功!"); 
@@ -169,7 +189,7 @@ async function onPeopleMessage(msg) {
     } else if (content.includes("get")) {
       if (reg.OUT_CODEBOOK.test(content)) {
         const {filename, key, iv} = await cipher.OutCodebook(content);
-        console.log(`filename: ${filename}\nkey: ${key}\niv: ${iv}`); // debug
+        util.log(`filename: ${filename}\nkey: ${key}\niv: ${iv}`); // debug
         fs.readFile(path.join(__dirname, "/../password", filename), (err, data) => {
           if (err) console.error("readFileErr: " + err);
           try {
@@ -189,21 +209,29 @@ async function onPeopleMessage(msg) {
 
     //添加屏蔽用户
     else if (reg.IGNORE.test(content)) {
-      console.log('add ignore');
+      util.log('add ignore'); //debug
       const targetAlias = content.replace("屏蔽", "").trim();
-      // const targetContact = bot.Contact.find({alias: targetAlias});
       config.IGNORE.push(targetAlias);
-      console.log('添加成功!');
       return true;
     }
 
     //解除屏蔽
     else if (reg.UN_IGNORE.test(content)) {
-      console.log('delete ignore');
+      util.log('delete ignore'); //debug
       const targetAlias = content.replace("解除屏蔽", "").trim();
       config.IGNORE.splice(config.IGNORE.indexOf(targetAlias), 1);
-      console.log('已解除!');
       return true;
+    }
+
+    //退出登录
+    else if (content === "停止运行") {
+      try {
+        util.log(`Bot will stop`); //debug
+        await bot.stop();
+        return;
+      } catch(err) {
+        console.error(err);
+      }
     }
   }
 
@@ -293,7 +321,7 @@ async function onPeopleMessage(msg) {
 
     if (!isUtil) {
       // 非utils消息，转由AI回复
-      console.log("AI will answer"); // debug
+      util.log("AI will answer"); // debug
       const signature = await request.getSignature();
       const answer = await request.getAnswer(
         signature,
@@ -330,7 +358,7 @@ async function onWebRoomMessage(msg) {
         //如果是机器人好友且备注是自己的大号备注  才执行踢人操作
         // edit at 0109：备注无法获取是因为要等官方后台数据刷新才行。踢人要管理员权限
         const delName = content.replace("踢@", "").trim();
-        console.log("踢出" + delName); // debug
+        util.log("踢出" + delName); // debug
         const delContact = await room.member({ name: delName }); //! 按name搜索存在同名的情况，如果可以还是要用wx_id
         await room.del(delContact);
         await msg.say(`<${delName}>已被移除群聊。且聊且珍惜啊！`);
@@ -340,7 +368,7 @@ async function onWebRoomMessage(msg) {
 
     //todo 将群聊内的指令直接作为people消息处理
     if (await msg.mentionSelf()) {
-      console.log(`room: someone mentioned me`); // debug
+      util.log(`room: someone mentioned me`); // debug
       await onPeopleMessage(msg);
       return;
     }
@@ -400,7 +428,7 @@ async function onUtilsMessage(msg) {
     // rgb to hex
     else if (content.indexOf("转16进制") === 0) {
       try {
-        const color = colorRGBtoHex(content.replace("转16进制", "").trim());
+        const color = util.colorRGBtoHex(content.replace("转16进制", "").trim());
         await msg.say(color);
       } catch (error) {
         console.error(error);
@@ -412,7 +440,7 @@ async function onUtilsMessage(msg) {
     // hex to rgb
     else if (content.indexOf("转rgb") === 0) {
       try {
-        const color = colorHex(content.replace("转rgb", "").trim());
+        const color = util.colorHextoRGB(content.replace("转rgb", "").trim());
         await msg.say(color);
       } catch (error) {
         console.error(error);
@@ -428,7 +456,7 @@ async function onUtilsMessage(msg) {
         // 当天
         let weatherStr = `城市：${city}\n${moment().format("MM月DD日")}：${
           realtime.temperature
-        }度  ${realtime.info}\n`;
+        }℃  ${realtime.info}\n`;
         weatherStr += `----------\n未来五天   天气预报\n----------\n`;
         // 预报后面五天
         for (let i = 1; i <= 5; i++) {
@@ -436,7 +464,7 @@ async function onUtilsMessage(msg) {
             weatherStr +
             `${moment().add(i, "d").format("MM月DD日")}：${
               future[i - 1].temperature
-            }度  ${future[i - 1].weather}\n`;
+            } ${future[i - 1].weather}\n`;
         }
         await delay(200);
         await msg.say(weatherStr);
