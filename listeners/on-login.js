@@ -25,7 +25,7 @@ async function onLogin(user) {
  */
 async function rolling() {
   schedule.setSchedule(
-    'group',
+    "group",
     {
       hour: 9,
       minute: 00,
@@ -34,12 +34,19 @@ async function rolling() {
     async () => {
       const today = moment().format("MM月DD日"); //日期
       const poison = await request.getSoup(); //毒鸡汤
-      const str = `\n今天是${today},你毕业设计做完了吗?\n---------------\n${poison}`;
-      for (let i=0; i<config.WEBROOM.length; i++) {
+      const {realtime} = await request.getWeather('武汉');
+      const str =
+        `\n---------------\n` +
+        `今天是${today},你毕业设计做完了吗?\n` +
+        `---------------\n` +
+        `${poison}\n` +
+        `---------------\n` +
+        `武汉天气：${realtime.temperature}℃ ${realtime.info}`;
+      for (let i = 0; i < config.WEBROOM.length; i++) {
         const room = await bot.Room.find({
           topic: config.WEBROOM[i],
         });
-        const contactList = await room.memberAll()
+        const contactList = await room.memberAll();
         await room.say(str, ...contactList);
       }
     }
@@ -50,29 +57,28 @@ async function rolling() {
  * @func 久坐提醒(30min/次)
  */
 async function rest() {
-  schedule.setSchedule(
-    {hour: 12, minute: 30},
-    () => {
-      console.log('久坐提醒已上线');
-      schedule.setSchedule(
-        'start',
-        '*/30 * * * *',
-        async () => {
-          console.log('time for rest');
-          const master = await bot.Contact.find({ alias: config.MYSELF });
-          master.say(`工作30min了，让眼睛休息下吧！`);
-        }
-      )
-    }
-  )
+  schedule.setSchedule("rest1", { hour: 8, minute: 30 }, () => {
 
-  schedule.setSchedule(
-    {hour: 19}, //晚上7点之后就没太阳了
-    () => {
-      const success = schedule.cancelJobName('start');
-      console.log(success === true ? '久坐提醒已关闭' : '久坐提醒已失败');
-    }
-  )
+    console.log("久坐提醒已上线");
+
+    schedule.setSchedule("start", "*/30 * * * *", async () => {
+      console.log("time for rest");
+      const master = await bot.Contact.find({ alias: config.MYSELF });
+      master.say(`工作30min了，让眼睛休息下吧！`);
+    });
+
+    schedule.setSchedule(
+      "rest2",
+      { hour: 18, minute: 30 }, //晚上7点之后就没太阳了
+      () => {
+        const success = schedule.cancelJobName("start");
+        console.log(success);
+        console.log(success === true ? "久坐提醒已关闭" : "久坐提醒已失败");
+      }
+    );
+  });
+
+
 }
 
 module.exports = onLogin;
