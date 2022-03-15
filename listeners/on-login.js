@@ -8,6 +8,7 @@ const config = require("../config");
 const moment = require("../utils/moment");
 const request = require("../request");
 const bot = require("../bot");
+const util = require('../utils');
 
 /**
  * @digest 登录事件监听
@@ -59,10 +60,10 @@ async function rolling() {
 async function rest() {
   schedule.setSchedule("rest1", { hour: 8, minute: 30 }, () => {
 
-    console.log("久坐提醒已上线");
+    util.log("久坐提醒已上线");
 
     schedule.setSchedule("start", "*/30 * * * *", async () => {
-      console.log("time for rest");
+      util.log("time for rest");
       const master = await bot.Contact.find({ alias: config.MYSELF });
       master.say(`工作30min了，让眼睛休息下吧！`);
     });
@@ -73,7 +74,7 @@ async function rest() {
       () => {
         const success = schedule.cancelJobName("start");
         console.log(success);
-        console.log(success === true ? "久坐提醒已关闭" : "久坐提醒已失败");
+        util.log(success === true ? "久坐提醒已关闭" : "久坐提醒已失败");
       }
     );
   });
