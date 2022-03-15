@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-01-28 11:39:08
- * @LastEditTime: 2022-02-02 21:30:13
+ * @LastEditTime: 2022-03-15 15:54:06
  * @Description: 入口文件，启动机器人实例
  */
 /*
@@ -55,3 +55,5 @@ bot
   .start()
   .then(() => console.log("开始登陆微信"))
   .catch(e => console.error(e));
+
+  
