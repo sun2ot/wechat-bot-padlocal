@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-01-28 11:39:08
- * @LastEditTime: 2022-03-15 16:06:41
+ * @LastEditTime: 2022-02-02 21:30:13
  * @Description: 入口文件，启动机器人实例
  */
 /*
@@ -36,7 +36,8 @@ const scan = require("./listeners/on-scan");
 const friendship = require("./listeners/on-friendship");
 const roomJoin = require("./listeners/on-room-join");
 const roomLeave = require("./listeners/on-room-leave");
-const bot = require("./bot")
+
+const bot = require("./bot");
 
 bot.on("login", login);
 
@@ -54,5 +55,3 @@ bot
   .start()
   .then(() => console.log("开始登陆微信"))
   .catch(e => console.error(e));
-
-  
