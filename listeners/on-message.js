@@ -105,7 +105,7 @@ async function onPeopleMessage(msg) {
   }
   
   //对config配置文件中 ignore的用户消息不必处理
-  if (config.IGNORE.includes(senderAlias)) {
+  if (config.IGNORE.ignore.includes(senderAlias)) {
     util.log(`ignoring ${senderAlias}`); //debug
     return;
   }
@@ -223,7 +223,7 @@ async function onPeopleMessage(msg) {
     else if (reg.IGNORE.test(content)) {
       util.log('add ignore'); //debug
       const targetAlias = content.replace("屏蔽", "").trim();
-      config.IGNORE.push(targetAlias);
+      config.IGNORE.ignore.push(targetAlias);
       return true;
     }
 
@@ -231,19 +231,20 @@ async function onPeopleMessage(msg) {
     else if (reg.UN_IGNORE.test(content)) {
       util.log('delete ignore'); //debug
       const targetAlias = content.replace("解除屏蔽", "").trim();
-      config.IGNORE.splice(config.IGNORE.indexOf(targetAlias), 1);
+      config.IGNORE.ignore.splice(config.IGNORE.ignore.indexOf(targetAlias), 1);
       return true;
     }
 
-    //退出登录
-    else if (content === "停止运行") {
-      try {
-        util.log(`Bot will stop`); //debug
-        await bot.stop();
-        return;
-      } catch(err) {
-        console.error(err);
-      }
+    //持久化屏蔽列表
+    //todo 先用content凑活，记得要修改为正则
+    else if (content === "持久化屏蔽") {
+      let modifyIgnore = JSON.stringify(config.IGNORE);
+      fs.writeFile(path.join(__dirname, '../config/ignore.json'), modifyIgnore, 'utf8', err => {
+        if (err)
+            console.error(err);
+        else
+            util.log('持久化屏蔽成功');
+      });
     }
   }
 
