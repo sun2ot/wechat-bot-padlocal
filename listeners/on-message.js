@@ -245,6 +245,7 @@ async function onPeopleMessage(msg) {
         else
             util.log('持久化屏蔽成功');
       });
+      return true;
     }
   }
 
