@@ -31,7 +31,9 @@ function setSchedule(id, date, callback) {
  */
 const formatDateStr = function (timeStr) {
   const timeLen = timeStr.length;
-  if (timeLen === 3) {
+  if (timeLen === 2) {
+    //todo 时间精确到秒在实际情况下根本没卵用，但毕业答辩需要精确到秒进行演示（不然会尬等），因此该部分后续重构
+  } else if (timeLen === 3) {
     const date = new Date(
       moment().year(), // 本年
       parseInt(timeStr[0]) - 1, // 月份(-1)
@@ -41,20 +43,20 @@ const formatDateStr = function (timeStr) {
     return date;
   } else if (timeLen === 4) {
     const date = new Date(
-      moment().year(), // 本年
-      parseInt(timeStr[0]) - 1, // 月份(-1)
-      parseInt(timeStr[1]), // 日期
-      parseInt(timeStr[2]), // 时
+      moment().year(),
+      parseInt(timeStr[0]) - 1,
+      parseInt(timeStr[1]),
+      parseInt(timeStr[2]),
       parseInt(timeStr[3]) // 分
     );
     return date;
   } else if (timeLen === 5) {
     const date = new Date(
-      moment().year(), // 本年
-      parseInt(timeStr[0]) - 1, // 月份(-1)
-      parseInt(timeStr[1]), // 日期
-      parseInt(timeStr[2]), // 时
-      parseInt(timeStr[3]), // 分
+      moment().year(),
+      parseInt(timeStr[0]) - 1,
+      parseInt(timeStr[1]),
+      parseInt(timeStr[2]),
+      parseInt(timeStr[3]),
       parseInt(timeStr[4]) // 秒
     );
     return date;

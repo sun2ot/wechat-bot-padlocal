@@ -4,8 +4,10 @@
  * @time 2022-01-11
  */
 const bot = require("../bot.js");
-
+let i=0
+console.log(`消息测试数据${++i}`);
 const request = require("../request");
+const signature = require("../request/signature");
 
 const { UrlLink } = require("wechaty");
 const { FileBox } = require("file-box");
@@ -337,6 +339,7 @@ async function onPeopleMessage(msg) {
       // 非utils消息，转由AI回复
       util.log("AI will answer"); // debug
       const signature = await request.getSignature();
+      // const wxSign = await signature.getWX();
       const answer = await request.getAnswer(
         signature,
         contact.id,
