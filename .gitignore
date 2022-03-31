@@ -4,5 +4,3 @@
 /config/index.js
 /config/test.js
 /config/ignore.json
-*.jpg
-*.png
