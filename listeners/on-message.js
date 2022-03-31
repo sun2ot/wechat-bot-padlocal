@@ -4,10 +4,9 @@
  * @time 2022-01-11
  */
 const bot = require("../bot.js");
-let i=0
-console.log(`消息测试数据${++i}`);
+// let i=0
+// console.log(`消息测试数据${++i}`);
 const request = require("../request");
-const signature = require("../request/signature");
 
 const { UrlLink } = require("wechaty");
 const { FileBox } = require("file-box");
@@ -40,15 +39,22 @@ const delay = ms =>
     console.log("delay: " + err.message);
   });
 
-  /**
-   * @func 是否为1分钟内的消息
-   * @returns true/false
-   */
+/**
+  * @func 是否为1分钟内的消息
+  * @returns true/false
+  */
 const recent = msg => {
   if (msg.age() > 60)
     return false;
   return true;
 }
+
+let wxSignature = await request.getSignature(); //手动获取微信对话开放平台首次签名
+setInterval( (wxSignature) => {
+  wxSignature = await request.getSignature();
+  util.warn(`签名更新: ${wxSignature}`);
+}, 7200000); // 签名轮询/2小时
+
 
 /**
  * @func 处理消息
@@ -338,10 +344,9 @@ async function onPeopleMessage(msg) {
     if (!isUtil) {
       // 非utils消息，转由AI回复
       util.log("AI will answer"); // debug
-      const signature = await request.getSignature();
-      // const wxSign = await signature.getWX();
+      // const signature = await request.getSignature();
       const answer = await request.getAnswer(
-        signature,
+        wxSignature,
         contact.id,
         msg.text()
       );

@@ -60,10 +60,15 @@ function log(content) {
     console.log(loginfo);
 }
 
+function warn(content) {
+    const warninfo = `${timestamp()} ${content}`;
+    console.warn(warninfo);
+}
+
 //timestamp();
 
 module.exports = {
     colorRGBtoHex, 
     colorHextoRGB,
-    log
+    log, warn,
 }
