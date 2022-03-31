@@ -54,7 +54,7 @@ function getWxSignature() {
   wxSignature = request.getSignature().then( result => {
     wxSignature = result;
   });
-  util.warn(`签名更新: ${wxSignature}`);
+  util.warn(`签名更新`);
   return getWxSignature;
 }
 setInterval(getWxSignature(), 7200000); // 签名轮询/2小时
