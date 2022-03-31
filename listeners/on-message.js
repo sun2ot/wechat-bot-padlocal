@@ -49,10 +49,14 @@ const recent = msg => {
   return true;
 }
 
-let wxSignature = await request.getSignature(); //手动获取微信对话开放平台首次签名
-setInterval( (wxSignature) => {
+let wxSignature = 'initial';
+async function getWxSignature() {
   wxSignature = await request.getSignature();
   util.warn(`签名更新: ${wxSignature}`);
+  return getWxSignature;
+} //手动获取微信对话开放平台首次签名
+setInterval( async () => {
+  await getWxSignature()
 }, 7200000); // 签名轮询/2小时
 
 
@@ -346,7 +350,7 @@ async function onPeopleMessage(msg) {
       util.log("AI will answer"); // debug
       // const signature = await request.getSignature();
       const answer = await request.getAnswer(
-        wxSignature,
+        wxSignature(),
         contact.id,
         msg.text()
       );
