@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-04-02 13:26:11
- * @LastEditTime: 2022-04-02 20:00:41
+ * @LastEditTime: 2022-04-02 20:04:12
  * @Description: 翻译功能可选语言
  */
 const from = {
@@ -27,9 +27,8 @@ for (let key in from) {
 for (let key in to) {
     supportTo.push(to[key]);
 }
-// console.log(supportFrom);
-// console.log(supportTo);
-const content = '翻译 en 教授';
+
+// const content = '翻译 en 教授';
 const analysis = (content) => {
     const command = content.split(' ');
     let fromLan, toLan, query = '';
@@ -47,7 +46,7 @@ const analysis = (content) => {
             console.log('pattern 3');
             fromLan = from.Auto;
             toLan = supportFrom[indexFrom]; // command[1]物理上是from的位置，但逻辑上是to的作用
-            query = content.replace(`翻译 ${fromLan}`, '').trim();
+            query = content.replace(`翻译 ${toLan}`, '').trim();
         }
     } else {
         // 翻译 你好 [...]
@@ -63,9 +62,8 @@ const analysis = (content) => {
     }
     return result;
 }
-const result = analysis(content);
-console.log(result);
-
+// const result = analysis(content);
+// console.log(result);
 
 module.exports = {
     from, to,
