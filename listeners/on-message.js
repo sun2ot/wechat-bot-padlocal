@@ -117,9 +117,9 @@ async function onPeopleMessage(msg) {
       }
     }
   }
-  
+
   //对config配置文件中 ignore的用户消息不必处理
-  if (config.IGNORE.ignore.includes(senderAlias)) {
+  if (config.IGNORE.ignore.includes(senderAlias) && !msg.room()) {
     util.log(`ignoring ${senderAlias}`); //debug
     return;
   }
