@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-04-02 14:00:13
- * @LastEditTime: 2022-04-02 14:59:37
+ * @LastEditTime: 2022-04-02 16:23:28
  * @Description: 生成随机字符
  */
 
@@ -19,9 +19,9 @@ const num3 = () => {
   return temp>1000?Math.floor(temp/10):temp;
 }; //随机三位数
 
-setInterval(() => {
-  console.log(num3());
-}, 1000);
+// setInterval(() => {
+//   console.log(num3());
+// }, 1000);
 
 const words = [
   "a",
