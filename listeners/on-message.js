@@ -269,21 +269,14 @@ async function onPeopleMessage(msg) {
     return;
   } else if (reg.TRANSLATE.test(content)) { // 翻译
     util.log('translate');
-    const command = content.split(' '); // pattern: 翻译 [from] to 文本
-    let from, to, query = '';
-    command.length === 4 
-      ? (from, to, query = command[1], command[2], command[3]) // 全自定义
-      : (command.length === 3
-          ? (from, to, query = language.from.Auto, command[1], command[2]) // 源语言自动识别
-          : (from, to, query = language.from.Auto, language.to.Chinese, command[1]) //默认翻译到中文
-        );
+    const result = language.analysis(content);
     try {
-      const translation = await request.translate(query, from, to);
-      await msg.say(translation.trans_result.dst);
+      const translation = await request.translate(result.query, result.from, result.to);
+      await msg.say(translation);
     } catch (err) {
       console.error('msg-translate', err.message);
       await delay(200);
-      await msg.say('翻译接口错误，请联系客服！');
+      await msg.say('接口异常或指令格式错误，请联系客服！')
     }
     return;
   } else if (content === "打赏") {
