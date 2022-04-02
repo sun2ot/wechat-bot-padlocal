@@ -94,11 +94,11 @@
 
   2022年1月14日4点0分0秒向备注为樊庆元的联系人发送“我刚学完，早安”
 
-- 拜年功能（可适用于多种节日）
+- 群发功能（可适用于多种节日）
 
   ![greeting.png](https://cdn.nlark.com/yuque/0/2022/jpeg/10374984/1643434323885-4ca3d81d-a9bd-42d4-a7f1-bdfdd1f4e88c.jpeg)
 
-  加上备注作为称谓，就不会被看出是群发的啦~诚意MAX
+  加上备注作为称谓，就不会被看出是群发的啦~:sparkles:诚意MAX:sparkles:
 
 - 定时消息销毁
 
@@ -147,11 +147,16 @@
 - 退出群聊，机器人会向机器人master发送消息，说明何人退出了何群
   ![退群](https://cdn.nlark.com/yuque/0/2022/png/10374984/1645693438916-3dcb9434-5296-4e9f-9abd-a8134fab700b.png)
 
-### 2.9 :tada:图床
+### 2.9 图床
 
 - 向机器人发送图片时，将触发图床功能，由机器人接收图片后将其上传至图床服务器
   ![图床](https://cdn.nlark.com/yuque/0/2022/png/10374984/1646729685695-e3b22456-5c94-4634-821a-f518bd22e02d.png)
   图片可在浏览器进行访问，也可以插入`markdown`文档
+
+### 2.10 :sparkles::sparkles::sparkles:翻译
+
+- 机器人已介入百度翻译平台，自行注册开发者并认证，可以获得每月200万字符量翻译，QPS能达到10。
+  ![翻译](https://cdn.nlark.com/yuque/0/2022/png/10374984/1648901839728-a04023f7-4097-4df5-a64b-97c6d9494e16.png)
 
 ## 三、目录结构
 
@@ -178,8 +183,9 @@
  * @digst:  全局配置config
  * @time: 2022-01-03 12:36
  */
+const ignoreFile = require('./ignore.json');
 module.exports = {
-  SERVER: "", //服务器IP
+  SERVER: "", //服务器IP/域名
 
   PUPPET_TOKEN: "", // pad-local
 
@@ -189,13 +195,17 @@ module.exports = {
 
   WXAI_TOKEN: "", // 微信对话开放平台
 
-  IGNORE: ["xxx"], //不需机器人回复的用户，填写用户备注，非昵称
+  BAIDU_APPID: "",
+
+  BAIDU_KEY: "",
+
+  IGNORE: ignoreFile, //json文件:不需机器人回复的用户，填写用户备注，非昵称
 
   WEBROOM: ["test", "test2"], //要管理的群名称
 
-  MYSELF: "xx", //大号的备注，防止其他人冒充
+  MYSELF: "mnb", //大号的备注，防止其他人冒充
 
-  BOTNAME: "xx", // 机器人的昵称
+  BOTNAME: "gjb", // 机器人的昵称
 
   PROVINCE: [
     "北京",
@@ -244,6 +254,7 @@ module.exports = {
 6.全国肺炎
 7.客服
 ------------------
+翻译(例：翻译 [en] [zh] text)
 转小写(例：转小写 YZHYYDS)
 转大写(例：转大写 yzhyyds)
 转rgb(例：转rgb #cccccc)
@@ -259,7 +270,8 @@ module.exports = {
            `群发消息\n(例：群发 M.D.H.m.s 目标1[，目标2] 信息)\n` +
            `销毁定时\n(例:销毁 id)\n` +
            `刷新联系人数据(!WARNING!)\n` +
-           `[解除]屏蔽\n(例：屏蔽 张三(->备注))` 
+           `[解除]屏蔽\n(例：屏蔽 张三(->备注))` +
+           `持久化屏蔽\n(更新本地屏蔽联系人列表)`
   }
 };
 ```
@@ -271,7 +283,7 @@ module.exports = {
    - 天行数据官网 ：[https://www.tianapi.com/](https://tianapi.com/)  		
    - 聚合数据官网：[https://www.juhe.cn/](https://www.juhe.cn/) 
    - 微信对话开放平台：[https://openai.weixin.qq.com/](https://openai.weixin.qq.com/)
-
+   - 百度翻译开放平台：[https://api.fanyi.baidu.com/](https://api.fanyi.baidu.com/)
 
 - 注册成功后，申请以下接口： 
    - 天行数据 
@@ -315,12 +327,25 @@ npm start start.js
 > 退出登录后再重新登录时，你的手机会自动弹出iPad的登录请求，点击后耐心等待即可。如果确实没登上去再扫控制台的二维码登录。
 
 若控制台打印的二维码是支离破碎的，无法扫描，请更换终端。
-> 我在本机用的是`Windows Terminal`，ECS服务器用`xhell`连接。
+> 我在本机用的是`Windows Terminal`，ECS服务器用`tabby`连接。
 
 ---
 
 
 ## 六、更新日志
+
+2022-04-02
+
+- 上线翻译功能:globe_with_meridians:
+
+2022-03-31
+
+- 优化AI签名的获取，加入轮询机制
+- 域名备案完成:ok_hand:
+
+2022-03-29
+
+- 支持将内存中修改过后的屏蔽联系人列表持久化到本地json文件
 
 2022-03-08
 
