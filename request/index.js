@@ -9,6 +9,8 @@ const cheerio = require("cheerio");
 const request = require("request");
 const axios = require("axios");
 const FormData = require("form-data");
+const random = require("../utils/random");
+const cipher = require("../utils/cipher");
 
 const config = require("../config");
 
@@ -17,12 +19,54 @@ const POISON = "https://8zt.cc/"; //毒鸡汤网站
 const TXAPI = "http://api.tianapi.com/"; // 天行数据官网
 const JUHEAPI = "http://apis.juhe.cn/"; // 聚合数据官网
 const WXAI = "https://openai.weixin.qq.com/openapi/"; // 微信对话开放平台
+const BAIDU_TRANSLATE_API =
+  "https://fanyi-api.baidu.com/api/trans/vip/translate/"; // 百度通用翻译API
 
 const imgHosting = `http://${config.SERVER}:1255/upload`; //picture-bed图床
 
 const TXAPI_KEY = config.TXAPI_TOKEN; // 天行key
 const JUHEAPI_KEY = config.JUHEAPI_TOKEN; // 聚合key
 const WXAI_TOKEN = config.WXAI_TOKEN; // 微信对话开放平台token
+
+/**
+ * @func 百度翻译
+ * @param {string} query 待翻译文本
+ * @param {string} from 源语言，默认auto
+ * @param {string} to 目标语言，默认中文
+ */
+async function translate(query, from, to) {
+  try {
+
+    let salt = random.num3; // 随机数
+    for (let i=0; i<3; i++) {
+      salt += random.letter();
+    }
+
+    /** 
+     * 百度翻译签名要求:
+     * step1: 拼接appid+query+salt+密钥得到字符串1
+     * step2: 对字符串1进行md5加密得到签名 
+     */ 
+    const str = config.BAIDU_APPID + query + salt + config.BAIDU_KEY;
+    const signature = cipher.md5(str);
+
+    const translation = (
+      await axios.get(BAIDU_TRANSLATE_API, {
+        params: {
+          q: query,
+          from: from,
+          to: to,
+          appid: config.BAIDU_APPID,
+          salt: salt,
+          sign: signature,
+        },
+      })
+    ).data;
+    return translation;
+  } catch (err) {
+    console.error('baidu translate', err.message);
+  }
+}
 
 /**
  * @func 上传图片
@@ -53,7 +97,6 @@ async function upload(fileStream) {
 /**
  * @function 获取API签名，2小时过期
  * @returns 签名
- * @tips 改为轮询
  */
 async function getSignature() {
   const { signature } = (
@@ -283,4 +326,5 @@ module.exports = {
   getSignature,
   getAnswer,
   upload,
+  translate
 };

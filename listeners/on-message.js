@@ -16,6 +16,7 @@ const path = require("path");
 
 const config = require("../config");
 const reg = require("../config/RegularExpression");
+const language = require("../config/language");
 
 const util = require("../utils");
 const moment = require("../utils/moment");
@@ -265,6 +266,24 @@ async function onPeopleMessage(msg) {
   if (content === "菜单") {
     await delay(200);
     await msg.say(config.KEYWORDS()); // 展示菜单
+    return;
+  } else if (reg.TRANSLATE.test(content)) { // 翻译
+    util.log('translate');
+    const command = content.split(' '); // pattern: 翻译 [from] to 文本
+    let from, to, query = '';
+    command.length === 4 
+      ? (from, to, query = command[1], command[2], command[3]) // 全自定义
+      : (command.length === 3
+          ? (from, to, query = language.from.Auto, command[1], command[2]) // 源语言自动识别
+          : (from, to, query = language.from.Auto, language.to.Chinese, command[1]) //默认翻译到中文
+        );
+    try {
+      const translation = await request.translate(query, from, to);
+      await msg.say(translation);
+    } catch (err) {
+      await delay(200);
+      await msg.say('翻译接口错误，请联系客服！');
+    }
     return;
   } else if (content === "打赏") {
     // 收款二维码
