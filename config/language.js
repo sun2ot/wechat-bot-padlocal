@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-04-02 13:26:11
- * @LastEditTime: 2022-04-02 19:36:32
+ * @LastEditTime: 2022-04-02 19:50:58
  * @Description: 翻译功能可选语言
  */
 const from = {
@@ -29,7 +29,7 @@ for (let key in to) {
 }
 // console.log(supportFrom);
 // console.log(supportTo);
-
+const content = '翻译 en 教授';
 const analysis = (content) => {
     const command = content.split(' ');
     let fromLan, toLan, query = '';
@@ -45,8 +45,8 @@ const analysis = (content) => {
         } else {
             // 翻译 en zh你好
             console.log('pattern 3');
-            fromLan = supportFrom[indexFrom];
-            toLan = to.Chinese;
+            fromLan = from.Auto;
+            toLan = supportTo[indexTo];
             query = content.replace(`翻译 ${fromLan}`, '').trim();
         }
     } else {
@@ -63,6 +63,9 @@ const analysis = (content) => {
     }
     return result;
 }
+const result = analysis(content);
+console.log(result);
+
 
 module.exports = {
     from, to,
