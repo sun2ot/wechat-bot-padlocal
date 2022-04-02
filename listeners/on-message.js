@@ -279,8 +279,9 @@ async function onPeopleMessage(msg) {
         );
     try {
       const translation = await request.translate(query, from, to);
-      await msg.say(translation);
+      await msg.say(translation.trans_result.dst);
     } catch (err) {
+      console.error('msg-translate', err.message);
       await delay(200);
       await msg.say('翻译接口错误，请联系客服！');
     }
