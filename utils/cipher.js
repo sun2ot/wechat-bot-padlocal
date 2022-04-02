@@ -87,6 +87,7 @@ async function OutCodebook(
 }
 
 module.exports = {
+  md5,
   aes128,
   unaes128,
   InCodebook,
