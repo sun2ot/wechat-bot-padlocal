@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-04-02 13:26:11
- * @LastEditTime: 2022-04-02 19:50:58
+ * @LastEditTime: 2022-04-02 20:00:41
  * @Description: 翻译功能可选语言
  */
 const from = {
@@ -46,7 +46,7 @@ const analysis = (content) => {
             // 翻译 en zh你好
             console.log('pattern 3');
             fromLan = from.Auto;
-            toLan = supportTo[indexTo];
+            toLan = supportFrom[indexFrom]; // command[1]物理上是from的位置，但逻辑上是to的作用
             query = content.replace(`翻译 ${fromLan}`, '').trim();
         }
     } else {
