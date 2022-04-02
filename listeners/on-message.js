@@ -272,7 +272,7 @@ async function onPeopleMessage(msg) {
     const result = language.analysis(content);
     try {
       const translation = await request.translate(result.query, result.from, result.to);
-      await msg.say(translation);
+      await msg.say(translation.trans_result[0].dst);
     } catch (err) {
       console.error('msg-translate', err.message);
       await delay(200);
