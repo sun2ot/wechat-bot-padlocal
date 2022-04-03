@@ -6,6 +6,8 @@
 
 有问题请提交`issue`，我会及时回复的。
 
+如果有使用上的问题，见[wiki](https://github.com/yzh1255245824/wechat-bot-padlocal/wiki)
+
 ---
 
 ## 一、关于iPad协议token的问题
