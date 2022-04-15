@@ -1,7 +1,7 @@
 /*
  * @Author: Yi Zhihang
  * @Create: 2022-04-02 13:26:11
- * @LastEditTime: 2022-04-02 20:04:12
+ * @LastEditTime: 2022-04-07 17:01:43
  * @Description: 翻译功能可选语言
  */
 const from = {
@@ -10,9 +10,10 @@ const from = {
      */
     Auto: 'auto',
     English: 'en',
-    Chinese: 'zh'
+    Chinese: 'zh',
+    Japanese: 'jp'
 }
-
+//! from && to 保持一致,除了from中多出auto除外
 const to = {
     English: 'en',
     Chinese: 'zh',

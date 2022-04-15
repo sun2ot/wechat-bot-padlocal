@@ -512,7 +512,7 @@ async function onUtilsMessage(msg) {
         msg.say("请输入[城市名 天气]");
       }
       return true;
-    } else if (content === "全国肺炎") {
+    } else if (content === "全国肺炎" || content === "6") {
       try {
         const res = await request.getChinaFeiyan();
         const chinaTotal = res.data.chinaTotal.total;
