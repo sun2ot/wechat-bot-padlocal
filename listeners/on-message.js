@@ -118,6 +118,13 @@ async function onPeopleMessage(msg) {
     }
   }
 
+  if (content === '备份') {
+    util.log('开始备份');
+    const allContactList = await bot.Contact.findAll();
+    console.log(allContactList[0]);
+    return;
+  }
+
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.ignore.includes(senderAlias) && !msg.room()) {
     util.log(`ignoring ${senderAlias}`); //debug

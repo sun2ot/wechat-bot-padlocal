@@ -9,6 +9,8 @@ const moment = require("../utils/moment");
 const request = require("../request");
 const bot = require("../bot");
 const util = require('../utils');
+const fs = require("fs");
+const path = require("path");
 
 /**
  * @digest 登录事件监听
@@ -23,6 +25,7 @@ async function onLogin(user) {
 
 /**
  * @func 定时群消息
+ * @time 9:00
  */
 async function rolling() {
   schedule.setSchedule(
@@ -56,6 +59,7 @@ async function rolling() {
 
 /**
  * @func 久坐提醒(30min/次)
+ * @time 8:30-18:30
  */
 async function rest() {
   schedule.setSchedule("rest1", { hour: 8, minute: 30 }, () => {
@@ -78,8 +82,23 @@ async function rest() {
       }
     );
   });
+}
 
-
+/**
+ * @func 微信容灾备份措施
+ * @time 每天24点
+ */
+async function backup() {
+  schedule.setSchedule("backup", {hour: 24}, () => {
+    util.log("backup.txt has been generated");
+    //todo 循环查询所有联系人，获取其id，最后写入文件
+    // fs.writeFile(path.join(__dirname, '../backup/backup.txt'), modifyIgnore, 'utf8', err => {
+    //   if (err)
+    //       console.error(err);
+    //   else
+    //       util.log('持久化屏蔽成功');
+    // });
+  });
 }
 
 module.exports = onLogin;
