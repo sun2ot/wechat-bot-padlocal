@@ -122,7 +122,7 @@ async function onPeopleMessage(msg) {
     util.log('开始备份');
     const allContactList = await bot.Contact.findAll();
     for (let i=0; i<5; i++) {
-      console.log(allContactList[0]);
+      console.log(allContactList[i]);
       console.log('======================');
     }
     
