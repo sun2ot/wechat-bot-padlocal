@@ -118,28 +118,28 @@ async function onPeopleMessage(msg) {
     }
   }
 
-  if (content === '备份') {
-    util.log('开始备份');
-    const fileName = moment().format("YYYY-MM-DD") + ".txt";
-    let writeStream = fs.createWriteStream(path.join(__dirname,'../backup',fileName)); //创建可写流
-    writeStream.once("open", function() {
-      util.log("stream open");
-    });
-    writeStream.once("close", function() {
-      util.log("stream close");
-    });
-    const allContactList = await bot.Contact.findAll();
-    for (let i=0; i<allContactList.length; i++) {
-      if (allContactList[i].friend()) { //todo 朴素好友获取
-        const contactData = `\nname: ${allContactList[i].name()}\n` + 
-                            `alias: ${await allContactList[i].alias()}\n` + 
-                            `number: ${allContactList[i].weixin()}\n`;
-        writeStream.write(contactData);
-      }
-    }
-    writeStream.close();
-    return;
-  }
+  // if (content === '备份') {
+  //   util.log('开始备份');
+  //   const fileName = moment().format("YYYY-MM-DD") + ".txt";
+  //   let writeStream = fs.createWriteStream(path.join(__dirname,'../backup',fileName)); //创建可写流
+  //   writeStream.once("open", function() {
+  //     util.log("stream open");
+  //   });
+  //   writeStream.once("close", function() {
+  //     util.log("stream close");
+  //   });
+  //   const allContactList = await bot.Contact.findAll();
+  //   for (let i=0; i<allContactList.length; i++) {
+  //     if (allContactList[i].friend()) { //todo 朴素好友获取
+  //       const contactData = `\nname: ${allContactList[i].name()}\n` + 
+  //                           `alias: ${await allContactList[i].alias()}\n` + 
+  //                           `number: ${allContactList[i].weixin()}\n`;
+  //       writeStream.write(contactData);
+  //     }
+  //   }
+  //   writeStream.close();
+  //   return;
+  // }
 
   //对config配置文件中 ignore的用户消息不必处理
   if (config.IGNORE.ignore.includes(senderAlias) && !msg.room()) {

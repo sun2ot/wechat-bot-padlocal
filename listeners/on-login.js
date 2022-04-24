@@ -21,6 +21,7 @@ async function onLogin(user) {
   //创建定时发送群消息任务
   await rolling();
   await rest();
+  await backup();
 }
 
 /**
@@ -86,18 +87,29 @@ async function rest() {
 
 /**
  * @func 微信容灾备份措施
- * @time 每天24点
+ * @time 每天24:10
  */
 async function backup() {
-  schedule.setSchedule("backup", {hour: 24}, () => {
-    util.log("backup.txt has been generated");
-    //todo 循环查询所有联系人，获取其id，最后写入文件
-    // fs.writeFile(path.join(__dirname, '../backup/backup.txt'), modifyIgnore, 'utf8', err => {
-    //   if (err)
-    //       console.error(err);
-    //   else
-    //       util.log('持久化屏蔽成功');
-    // });
+  schedule.setSchedule("backup", {hour: 24, minute: 10}, () => {
+    util.log("backup file is being generated");
+    const fileName = moment().format("YYYY-MM-DD") + ".txt";
+    let writeStream = fs.createWriteStream(path.join(__dirname,'../backup',fileName)); //创建可写流
+    writeStream.once("open", function() {
+      util.log("stream open");
+    });
+    writeStream.once("close", function() {
+      util.log("stream close");
+    });
+    const allContactList = await bot.Contact.findAll();
+    for (let i=0; i<allContactList.length; i++) {
+      if (allContactList[i].friend()) { //todo 朴素好友获取
+        const contactData = `\nname: ${allContactList[i].name()}\n` + 
+                            `alias: ${await allContactList[i].alias()}\n` + 
+                            `number: ${allContactList[i].weixin()}\n`;
+        writeStream.write(contactData);
+      }
+    }
+    writeStream.close();
   });
 }
 
