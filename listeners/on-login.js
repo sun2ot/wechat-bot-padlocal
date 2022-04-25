@@ -90,7 +90,7 @@ async function rest() {
  * @time 每天24:10
  */
 async function backup() {
-  schedule.setSchedule("backup", {hour: 24, minute: 10}, async () => {
+  schedule.setSchedule("backup", {hour: 0, minute: 10}, async () => {
     util.log("backup file is being generated");
     const fileName = moment().format("YYYY-MM-DD") + ".txt";
     let writeStream = fs.createWriteStream(path.join(__dirname,'../backup',fileName)); //创建可写流
