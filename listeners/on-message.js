@@ -157,7 +157,7 @@ async function onPeopleMessage(msg) {
       const filePath = path.join(__dirname, `../../picture-bed/uploads/${fileName}`); //! 绝对路径,存入图床
       await fileBox.toFile(filePath); //! 不指定，则默认为工作路径下
       //? bug: const url = await ImageHosting.upload(filePath);
-      const url = `http://${config.SERVER}:1255/pic/${fileName}`;
+      const url = `http://${config.SERVER}/pic/${fileName}`;
       util.log(`url is: ${url}`);//debug
       await delay(200);
       await msg.say(url);
