@@ -34,9 +34,9 @@ function testUrl(url) {
   return new Promise(function (resolve) {
     superagent
       .get(url)
-      .timeout({
-        response: 5000, // Wait 5 seconds for the server to start sending
-      })
+      // .timeout({
+      //   response: 5000, // Wait 5 seconds for the server to start sending
+      // })
       .end((err, res) => {
         if (err) {
           if (err.timeout) {
