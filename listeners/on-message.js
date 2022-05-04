@@ -446,10 +446,15 @@ async function onWebRoomMessage(msg) {
       if (!valid) {
         const room = msg.room();
         // const master = await room.member(config.BOTNAME);
+        const warnTarget = [msg.talker()];
+        // await room.say(
+        //   `@${msg
+        //     .talker()
+        //     .name()} 为了群主与众管理员的法律安全，本群禁止发送不明链接!!!`
+        // );
         await room.say(
-          `@${msg
-            .talker()
-            .name()} 为了群主与众管理员的法律安全，本群禁止发送不明链接!!!`
+          `为了群主与众管理员的法律安全，本群禁止发送不明链接!!!`,
+          ...warnTarget
         );
         console.log("链接不合法");
         return true;
