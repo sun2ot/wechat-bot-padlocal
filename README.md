@@ -8,7 +8,7 @@
 
 如果有使用上的问题，见[wiki](https://github.com/yzh1255245824/wechat-bot-padlocal/wiki)
 
----
+--- 
 
 ## 一、关于iPad协议token的问题
 
@@ -438,5 +438,4 @@ npm start start.js
 
 2021-11-23
 
-- 项目启动
 - 代码热更新部署
